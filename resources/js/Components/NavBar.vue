@@ -1,7 +1,7 @@
 <template>
     <div class="relative">
         <div class="h-16 w-full"></div>
-        <nav class="fixed left-0 right-0 top-0 bg-white border-b border-gray-200 px-4 z-50 h-16 flex items-center shadow-md">
+        <nav class="fixed left-0 right-0 top-0 bg-white border-b border-gray-200 px-4 z-20 h-16 flex items-center shadow-md">
             <div class="flex flex-wrap justify-between items-center w-full">
                 <div class="flex justify-start items-center">
                     <button
