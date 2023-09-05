@@ -29,10 +29,17 @@
                             >
                                 {{ usePage().props.auth.user.name }}
                                 <img
-                                    class="w-8 h-8 rounded-full"
-                                    src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gough.png"
+                                    v-if="usePage().props.auth.user.profile_photo"
+                                    :src="usePage().props.auth.user.profile_photo"
                                     alt="user photo"
+                                    class="w-8 h-8 object-cover border-2 border-gray-300 rounded-full"
                                 />
+                                <div
+                                    v-else
+                                    class="bg-green-200 w-8 h-8 rounded-full flex justify-center items-center border-2 border-gray-300"
+                                >
+                                    {{ usePage().props.auth.user.name[0] }}
+                                </div>
                             </MenuButton>
                         </div>
 
