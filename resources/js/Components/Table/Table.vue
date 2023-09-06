@@ -50,10 +50,10 @@
                         >
                             <button
                                 type="button"
-                                class="flex items-center gap-x-2 hover:text-gray-900"
+                                class="flex items-center gap-x-2"
                                 @click="setOrderBy(header.column)"
                                 :disabled="header.column == null"
-                                :class="{'text-blue-600 hover:text-blue-700': header.column == orderBy}"
+                                :class="[header.column == orderBy ? 'text-blue-600 hover:text-blue-700' : 'hover:text-gray-900']"
                                 :title="'Sort by ' + header.title"
                             >
                                 {{ header.title }}
