@@ -29,6 +29,6 @@
 
         'success-outlined': 'flex justify-center items-center px-4 h-10 bg-green-600s border-2 border-green-600 rounded-md font-semibold text-xs text-green-600 uppercase tracking-widest hover:bg-green-600 hover:text-white active:text-white focus:text-white focus:bg-green-600 active:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition ease-in-out duration-150',
 
-        secondary: 'flex justify-center items-center px-4 h-10 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150',
+        secondary: 'flex justify-center items-center px-4 h-10 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150 hover:bg-gray-50',
     }
 </script>

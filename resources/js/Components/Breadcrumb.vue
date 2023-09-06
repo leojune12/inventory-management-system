@@ -1,6 +1,6 @@
 <template>
     <!-- Breadcrumb -->
-    <nav class="flex px-4 py-3 text-gray-700 border border-gray-200 rounded-lg bg-white" aria-label="Breadcrumb">
+    <nav class="flex px-4 py-3 text-gray-700 border border-gray-200 rounded-lg bg-white shadow" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-1 md:space-x-3">
             <li class="inline-flex items-center">
                 <Link href="/dashboard" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
@@ -37,6 +37,7 @@
 import { Link } from '@inertiajs/vue3'
 
 defineProps({
+    // links = Array of objects, { link: '', title: '' }
     links: {
         type: Array,
         default: [],
