@@ -8,11 +8,12 @@
                     id="per_page"
                     name="per_page"
                     autocomplete="per_page"
-                    class="block w-full rounded-md border border-gray-300 bg-white dark:bg-gray-700 h-10 pl-3 pr-8 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm text-gray-700 dark:text-white md:w-16"
+                    class="block w-full rounded-md border border-gray-300 bg-white dark:bg-gray-700 h-10 pl-3 pr-8 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm text-gray-700 dark:text-white"
                 >
                     <option value="10">10</option>
                     <option value="25">25</option>
                     <option value="50">50</option>
+                    <option value="100">100</option>
                 </select>
             </div>
             <div class="flex md:w-80s w-auto">
@@ -38,7 +39,7 @@
             </div>
         </div>
         <div class="overflow-x-auto mb-4">
-            <table class="w-full text-sm text-left text-gray-500">
+            <table class="w-full text-sm text-left">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-100">
                     <tr>
                         <th
@@ -47,7 +48,20 @@
                             :class="header.class"
                             scope="col"
                         >
-                            {{ header.title }}
+                            <button
+                                type="button"
+                                class="flex items-center gap-x-2 hover:text-gray-900"
+                                @click="setOrderBy(header.column)"
+                                :disabled="header.column == null"
+                                :class="{'text-blue-600 hover:text-blue-700': header.column == orderBy}"
+                                :title="'Sort by ' + header.title"
+                            >
+                                {{ header.title }}
+                                <ChevronUpDownIcon
+                                    v-if="header.column != null"
+                                    class="h-5 w-5"
+                                />
+                            </button>
                         </th>
                     </tr>
                 </thead>
@@ -58,6 +72,7 @@
             </table>
         </div>
         <PaginationComponent
+            class="px-4 pb-4"
             :totalPages="props.response.last_page ?? 0"
             :perPage="parseInt(currentPerPage) ?? 0"
             :currentPage="props.response.current_page ?? 0"
@@ -66,13 +81,14 @@
             :total="props.response.total ?? 0"
             :url="props.url"
             :search="search"
-            class="px-4 pb-4"
+            :orderBy="orderBy"
+            :orderType="orderType"
         />
     </div>
 </template>
 <script setup>
 import PaginationComponent from '@/Components/Table/Pagination.vue'
-import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
+import { MagnifyingGlassIcon, ChevronUpDownIcon } from '@heroicons/vue/24/outline'
 import { ref } from 'vue'
 import TextInput from '@/Components/TextInput.vue'
 import DynamicLink from '@/Components/DynamicLink.vue'
@@ -88,11 +104,42 @@ const props = defineProps({
         default: ''
     },
     tableHeader: Object,
+    order: {
+        type: Object,
+        default: {
+            orderBy: '',
+            orderType: ''
+        }
+    },
 })
 
 const currentPerPage = ref(JSON.parse(JSON.stringify(props.response.per_page ?? 10)))
 
-const search = props.search != '' ? ref(JSON.parse(JSON.stringify(props.search))) : ref('')
+const search = props.search != ''
+    ? ref(JSON.parse(JSON.stringify(props.search)))
+    : ref('')
+
+const orderBy = props.order.orderBy != ''
+    ? ref(JSON.parse(JSON.stringify(props.order.orderBy)))
+    : ref('')
+
+const orderType = props.order.orderType != ''
+    ? ref(JSON.parse(JSON.stringify(props.order.orderType)))
+    : ref('')
+
+const setOrderBy = (column) => {
+    if (orderBy.value != column) {
+        orderBy.value = column
+    } else {
+        if (orderType.value == 'desc') {
+            orderType.value = 'asc'
+        } else {
+            // reset values
+            orderType.value = ''
+            orderBy.value = ''
+        }
+    }
+}
 </script>
 <style lang="">
 

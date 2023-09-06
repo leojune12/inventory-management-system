@@ -153,6 +153,14 @@ import { ChevronDoubleLeftIcon, ChevronLeftIcon, ChevronDoubleRightIcon, Chevron
             search: {
                 type: String,
                 default: '',
+            },
+            orderBy: {
+                type: String,
+                default: ''
+            },
+            orderType: {
+                type: String,
+                default: ''
             }
         },
         computed: {
@@ -216,6 +224,12 @@ import { ChevronDoubleLeftIcon, ChevronLeftIcon, ChevronDoubleRightIcon, Chevron
         watch: {
             perPage: function(newVal, oldVal) {
                 this.queryTable(false, true)
+            },
+            orderBy: function(newVal, oldVal) {
+                this.queryTable(false, false)
+            },
+            orderType: function(newVal, oldVal) {
+                this.queryTable(false, false)
             }
         },
         methods: {
@@ -244,7 +258,37 @@ import { ChevronDoubleLeftIcon, ChevronLeftIcon, ChevronDoubleRightIcon, Chevron
                     page = 1
                 }
 
-                this.queryString = '?page=' + page + '&perPage=' + this.perPage + (this.search ? '&search=' + this.search : '')
+                // logic to add '&' before argument name
+                let pageArgument = (page != 1
+                    ? 'page=' + page
+                    : '')
+                let perPageArgument = (this.perPage != 10
+                    ? (pageArgument !=''
+                        ? '&'
+                        : '') + 'perPage=' + this.perPage
+                    : '')
+                let searchArgument = (this.search
+                    ? (pageArgument !='' || perPageArgument !=''
+                        ? '&'
+                        : '') + 'search=' + this.search
+                    : '')
+                let orderByArgument = (this.orderBy
+                    ? (pageArgument != '' || perPageArgument !='' || searchArgument != ''
+                        ? '&'
+                        : '') + 'orderBy=' + this.orderBy
+                    : '')
+                let orderTypeArgument = (this.orderType
+                    ? (pageArgument != '' || perPageArgument !='' || searchArgument != '' || orderByArgument != ''
+                        ? '&'
+                        : '') + 'orderType=' + this.orderType
+                    : '')
+
+                this.queryString = '?' +
+                    pageArgument +
+                    perPageArgument +
+                    searchArgument +
+                    orderByArgument +
+                    orderTypeArgument
 
                 let query = this.url + this.queryString
 
