@@ -38,7 +38,7 @@ export const useDeleteItemStore = defineStore('deleteItem', {
                     onSuccess: () => {
                         Swal.fire({
                             title: 'Deleted successfully',
-                            text: "Deleted successfully.",
+                            // text: "Deleted successfully.",
                             icon: 'success',
                             confirmButtonColor: '#16A34A',
                         })
