@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CategoryController;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +36,10 @@ Route::group(['middleware' => ['auth', 'verified', 'role:admin']], function () {
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+
+    Route::resources([
+        'categories' => CategoryController::class,
+    ]);
 });
 
 require __DIR__.'/auth.php';

@@ -31,7 +31,7 @@
                 <ul class="pt-5 mt-5 space-y-2 border-t border-gray-200">
                     <li>
                         <Link
-                            href="/dashboard"
+                            href="/products"
                             class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg hover:bg-gray-100 group"
                         >
                             <ShoppingBagIcon class="h-6 w-6 text-gray-600 transition duration-75 group-hover:text-gray-900" />
@@ -40,7 +40,7 @@
                     </li>
                     <li>
                         <Link
-                            href="/dashboard"
+                            href="/categories"
                             class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg hover:bg-gray-100 group"
                         >
                             <TagIcon class="h-6 w-6 text-gray-600 transition duration-75 group-hover:text-gray-900" />
@@ -142,7 +142,7 @@
                                                     <ul class="pt-5 mt-5 space-y-2 border-t border-gray-200">
                                                         <li>
                                                             <Link
-                                                                href="/dashboard"
+                                                                href="/products"
                                                                 class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg hover:bg-gray-100 group"
                                                             >
                                                                 <ShoppingBagIcon class="h-6 w-6 text-gray-600 transition duration-75 group-hover:text-gray-900" />
@@ -151,7 +151,7 @@
                                                         </li>
                                                         <li>
                                                             <Link
-                                                                href="/dashboard"
+                                                                href="/categories"
                                                                 class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg hover:bg-gray-100 group"
                                                             >
                                                                 <TagIcon class="h-6 w-6 text-gray-600 transition duration-75 group-hover:text-gray-900" />
