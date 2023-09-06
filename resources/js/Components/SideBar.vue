@@ -197,7 +197,7 @@
 <script setup>
     import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue'
     import { XMarkIcon, ShoppingBagIcon, ShoppingCartIcon, PresentationChartBarIcon, TagIcon, UsersIcon } from '@heroicons/vue/24/outline'
-    import { useSidebarStore } from '../stores/sidebar'
+    import { useSidebarStore } from '@/stores/sidebar'
     import { Link } from '@inertiajs/vue3';
 
     const sidebar = useSidebarStore()
