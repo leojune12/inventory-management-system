@@ -272,12 +272,12 @@ import { ChevronDoubleLeftIcon, ChevronLeftIcon, ChevronDoubleRightIcon, Chevron
                         ? '&'
                         : '') + 'search=' + this.search
                     : '')
-                let orderByArgument = (this.orderBy
+                let orderByArgument = (this.orderBy != 'id' & this.orderBy != ''
                     ? (pageArgument != '' || perPageArgument !='' || searchArgument != ''
                         ? '&'
                         : '') + 'orderBy=' + this.orderBy
                     : '')
-                let orderTypeArgument = (this.orderType
+                let orderTypeArgument = (this.orderType != 'desc' & this.orderType != ''
                     ? (pageArgument != '' || perPageArgument !='' || searchArgument != '' || orderByArgument != ''
                         ? '&'
                         : '') + 'orderType=' + this.orderType
