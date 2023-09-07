@@ -68,8 +68,7 @@ class CategoryController extends Controller
             return back();
         } catch (Throwable $e) {
             DB::rollBack();
-            // return $e;
-            return back();
+            return $e;
         }
     }
 
@@ -105,7 +104,6 @@ class CategoryController extends Controller
         } catch (Throwable $e) {
             DB::rollBack();
             return $e;
-            // return back();
         }
     }
 
@@ -122,7 +120,7 @@ class CategoryController extends Controller
                 return back();
             } catch (Throwable $e) {
                 DB::rollBack();
-                return back();
+                return $e;
             }
         }
     }
