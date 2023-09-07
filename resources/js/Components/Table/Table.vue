@@ -130,6 +130,7 @@ const orderType = props.order.orderType != ''
 const setOrderBy = (column) => {
     if (orderBy.value != column) {
         orderBy.value = column
+        orderType.value = ''
     } else {
         if (orderType.value == 'desc') {
             orderType.value = 'asc'
