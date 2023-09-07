@@ -12,6 +12,8 @@ use App\Http\Requests\UpdateCategoryRequest;
 
 class CategoryController extends Controller
 {
+    private $tableName = 'categories';
+
     /**
      * Display a listing of the resource.
      */
@@ -32,10 +34,10 @@ class CategoryController extends Controller
      */
     private function getData($request)
     {
-        $query = Category::orderBy('categories.' . ($request->orderBy ?? 'id'), $request->orderType ?? 'desc')
+        $query = Category::orderBy($this->tableName . '.' . ($request->orderBy ?? 'id'), $request->orderType ?? 'desc')
 
         ->when($request->search != '', function ($query) use ($request) {
-                return $query->orWhere('categories.name', 'like', '%' . $request->search . '%');
+                return $query->orWhere($this->tableName . '.name', 'like', '%' . $request->search . '%');
         })
 
         ->paginate($request->perPage ?? 10);
@@ -112,7 +114,7 @@ class CategoryController extends Controller
      */
     public function destroy(Request $request)
     {
-        if(!empty($request->id_array)) {
+        if(!empty($request->id_array) && is_array($request->id_array)) {
             DB::beginTransaction();
             try {
                 Category::destroy($request->id_array);

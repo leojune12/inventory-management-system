@@ -49,7 +49,7 @@
                     </li>
                     <li>
                         <Link
-                            href="/dashboard"
+                            href="/units"
                             class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg hover:bg-gray-100 group"
                         >
                             <TagIcon class="h-6 w-6 text-gray-600 transition duration-75 group-hover:text-gray-900" />
@@ -160,7 +160,7 @@
                                                         </li>
                                                         <li>
                                                             <Link
-                                                                href="/dashboard"
+                                                                href="/units"
                                                                 class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg hover:bg-gray-100 group"
                                                             >
                                                                 <TagIcon class="h-6 w-6 text-gray-600 transition duration-75 group-hover:text-gray-900" />

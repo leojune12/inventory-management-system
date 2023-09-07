@@ -14,8 +14,8 @@
                     <Breadcrumb
                         :links="[
                             {
-                                link: '/categories',
-                                title: 'Categories'
+                                link: url,
+                                title: moduleName
                             }
                         ]"
                         :current="pageTitle"
@@ -48,7 +48,7 @@
                             <InputError class="mt-1" :message="form.errors.name" />
                         </div>
                     </div>
-                    <div class="flex flex-col md:flex-row gap-2 md:gap-1">
+                    <div class="flex flex-col md:flex-row gap-3 md:gap-2">
                         <PrimaryButton :disabled="form.processing">
                             Save
                         </PrimaryButton>
@@ -77,6 +77,7 @@ import Swal from 'sweetalert2'
 import { router } from '@inertiajs/vue3'
 import InputError from '@/Components/InputError.vue'
 
+const moduleName = 'Categories'
 const url = 'categories'
 const pageTitle = 'Update Category'
 

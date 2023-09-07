@@ -14,8 +14,8 @@
                     <Breadcrumb
                         :links="[
                             {
-                                link: '/categories',
-                                title: 'Categories'
+                                link: url,
+                                title: moduleName
                             }
                         ]"
                         :current="pageTitle"
@@ -77,6 +77,7 @@ import Swal from 'sweetalert2'
 import { router } from '@inertiajs/vue3'
 import InputError from '@/Components/InputError.vue'
 
+const moduleName = 'Categories'
 const url = 'categories'
 const pageTitle = 'Create Category'
 
