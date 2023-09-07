@@ -67,7 +67,7 @@ class User extends Authenticatable implements HasMedia
     }
 
     /**
-     * Get the user's first name.
+     * Get the user's profile photo.
      */
     protected function profilePhoto(): Attribute
     {
