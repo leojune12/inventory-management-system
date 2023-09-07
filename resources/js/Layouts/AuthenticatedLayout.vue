@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="min-h-screen bg-gray-100 relative w-full">
+        <div class="min-h-screen relative w-full">
             <!-- NavBar -->
             <NavBar />
 
