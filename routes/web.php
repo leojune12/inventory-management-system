@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\CategoryController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UnitController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +42,7 @@ Route::group(['middleware' => ['auth', 'verified', 'role:admin']], function () {
     Route::resources([
         'categories' => CategoryController::class,
         'units' => UnitController::class,
+        'products' => ProductController::class,
     ]);
 });
 
