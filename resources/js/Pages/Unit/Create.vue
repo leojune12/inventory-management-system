@@ -43,7 +43,7 @@
                                 required
                                 autofocus
                                 autocomplete="off"
-                                placeholder="Type category name"
+                                placeholder="Type unit name"
                             />
                             <InputError class="mt-1" :message="form.errors.name" />
                         </div>
