@@ -93,7 +93,12 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
-import { EyeIcon, PencilSquareIcon, TrashIcon, PlusIcon } from '@heroicons/vue/24/outline'
+import {
+    EyeIcon,
+    PencilSquareIcon,
+    TrashIcon,
+    PlusIcon
+} from '@heroicons/vue/24/outline'
 import { TagIcon } from '@heroicons/vue/24/solid'
 import { ref } from 'vue'
 import DynamicLink from '@/Components/DynamicLink.vue'
