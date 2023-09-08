@@ -7,7 +7,6 @@
             id="drawer-navigation"
         >
             <div class="overflow-y-auto py-5 px-3 h-full bg-white">
-                <!-- <component :is="UsersIcon" class="h-6 w-6 text-gray-600 transition duration-75 group-hover:text-gray-900"></component> -->
                 <ul class="space-y-2">
                     <li
                         v-for="item in firstGroupLinks"
@@ -26,7 +25,7 @@
 
                 <ul class="pt-5 mt-5 space-y-2 border-t border-gray-200">
                     <li
-                        v-for="item in secondGroupLinks"
+                        v-for="item in fourthGroupLinks"
                     >
                         <Link
                             :href="item.href"
@@ -42,7 +41,23 @@
 
                 <ul class="pt-5 mt-5 space-y-2 border-t border-gray-200">
                     <li
-                        v-for="item in thirdGroupLinks"
+                        v-for="item in fifthGroupLinks"
+                    >
+                        <Link
+                            :href="item.href"
+                            class="flex items-center p-2 text-base font-medium rounded-lg group"
+                            :class="[$page.url.startsWith(item.route) ? 'bg-blue-500 hover:bg-blue-600 text-white' : 'text-gray-900 hover:bg-gray-100']"
+                        >
+                            <!-- <PresentationChartBarIcon class="h-6 w-6 transition duration-75" /> -->
+                            <component :is="item.icon" class="h-6 w-6 transition duration-75"></component>
+                            <span class="ml-3">{{ item.title }}</span>
+                        </Link>
+                    </li>
+                </ul>
+
+                <ul class="pt-5 mt-5 space-y-2 border-t border-gray-200">
+                    <li
+                        v-for="item in sixthGroupLinks"
                     >
                         <Link
                             :href="item.href"
@@ -203,7 +218,22 @@
         }
     ]
 
-    const secondGroupLinks = [
+    const fourthGroupLinks = [
+        {
+            href: '/customers',
+            route: '/customers',
+            title: 'Customers',
+            icon: UsersIcon,
+        },
+        {
+            href: '/suppliers',
+            route: '/suppliers',
+            title: 'Suppliers',
+            icon: UsersIcon,
+        },
+    ]
+
+    const fifthGroupLinks = [
         {
             href: '/products',
             route: '/products',
@@ -224,7 +254,7 @@
         }
     ]
 
-    const thirdGroupLinks = [
+    const sixthGroupLinks = [
         {
             href: '/users',
             route: '/users',

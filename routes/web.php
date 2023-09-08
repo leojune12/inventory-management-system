@@ -7,6 +7,7 @@ use App\Http\Controllers\UnitController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\SupplierController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,6 +44,7 @@ Route::group(['middleware' => ['auth', 'verified', 'role:admin']], function () {
         'categories' => CategoryController::class,
         'units' => UnitController::class,
         'products' => ProductController::class,
+        'suppliers' => SupplierController::class,
     ]);
 });
 
