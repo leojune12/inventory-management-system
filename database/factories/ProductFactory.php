@@ -20,8 +20,8 @@ class ProductFactory extends Factory
             'name' => fake()->company(),
             'buying_price' => fake()->randomNumber(3),
             'selling_price' => fake()->randomNumber(3),
-            'category_id' => rand(1, 2500),
-            'unit_id' => rand(1, 2500),
+            'category_id' => rand(1, 25),
+            'unit_id' => rand(1, 25),
             'stock' => fake()->randomNumber(2),
         ];
     }

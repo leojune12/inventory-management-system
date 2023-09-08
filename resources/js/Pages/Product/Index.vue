@@ -50,10 +50,10 @@
                             {{ item.product_code }}
                         </td>
                         <td class="px-4 py-3 font-medium text-gray-700">
-                            {{ item.category_id }}
+                            {{ item.category.name }}
                         </td>
                         <td class="px-4 py-3 font-medium text-gray-700">
-                            {{ item.unit_id }}
+                            {{ item.unit.name }}
                         </td>
                         <td class="px-4 py-3 font-medium text-gray-700">
                             {{ item.buying_price }}

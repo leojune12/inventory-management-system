@@ -19,6 +19,7 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
+        // dd($this->getData($request));
         return Inertia::render('Product/Index', [
             'response' => $this->getData($request),
             'search' => $request->search ?? '',
@@ -34,12 +35,14 @@ class ProductController extends Controller
      */
     private function getData($request)
     {
-        $query = Product::orderBy($this->tableName . '.' . ($request->orderBy ?? 'id'), $request->orderType ?? 'desc')
-
+        // Eager load
+        $query = Product::with('category', 'unit', 'media')
+        // Order/Sort
+        ->orderBy($this->tableName . '.' . ($request->orderBy ?? 'id'), $request->orderType ?? 'desc')
+        // Search
         ->when($request->search != '', function ($query) use ($request) {
                 return $query->orWhere($this->tableName . '.name', 'like', '%' . $request->search . '%');
         })
-
         ->paginate($request->perPage ?? 10);
 
         return $query;
