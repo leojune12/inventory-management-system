@@ -6,7 +6,7 @@
             <div class="mb-4">
                 <div class="mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-y-4 sm:gap-y-0">
                     <div class="flex items-center justify-start text-gray-500">
-                        <TagIcon class="h-10 w-10 transition duration-75 mr-3" />
+                        <UsersIcon class="h-10 w-10 transition duration-75 mr-3" />
                         <h1 class="text-3xl">{{ pageTitle }}</h1>
                     </div>
                 </div>
@@ -195,7 +195,7 @@
 <script setup>
 import { Head, useForm } from '@inertiajs/vue3'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
-import { TagIcon } from '@heroicons/vue/24/solid'
+import { UsersIcon } from '@heroicons/vue/24/solid'
 import Breadcrumb from '@/Components/Breadcrumb.vue'
 import TextInput from '@/Components/TextInput.vue'
 import InputLabel from '@/Components/InputLabel.vue'
@@ -204,7 +204,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import Swal from 'sweetalert2'
 import { router } from '@inertiajs/vue3'
 import InputError from '@/Components/InputError.vue'
-import TextAreaInput from '@/Components/TextAreaInput.vue'
+import TextAreaInput from '@/Components/TextareaInput.vue'
 
 const moduleName = 'Suppliers'
 const url = 'suppliers'
