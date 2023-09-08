@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Throwable;
+use App\Models\Unit;
 use Inertia\Inertia;
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreProductRequest;
@@ -53,8 +55,11 @@ class ProductController extends Controller
      */
     public function create()
     {
+        $categories = Category::all();
+        $units = Unit::all();
         return Inertia::render('Product/Create', [
-            //
+            'categories' => $categories,
+            'units' => $units,
         ]);
     }
 
@@ -97,8 +102,12 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
+        $categories = Category::all();
+        $units = Unit::all();
         return Inertia::render('Product/Edit', [
             'model' => $product,
+            'categories' => $categories,
+            'units' => $units,
         ]);
     }
 

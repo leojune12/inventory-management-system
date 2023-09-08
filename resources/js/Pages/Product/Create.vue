@@ -32,8 +32,6 @@
                                 </h3>
                             </div>
                             <div>
-                                <!-- <InputLabel for="photo" value="Photo" class="mb-1" /> -->
-
                                 <input
                                     type="file"
                                     accept="image/*"
@@ -119,17 +117,13 @@
                                 <div class="grid gap-4 md:grid-cols-2 sm:gap-6 mb-5">
                                     <div class="">
                                         <InputLabel
-                                            for="category_id"
                                             value="Category"
                                         />
-                                        <TextInput
+                                        <ListBox
                                             id="category_id"
-                                            type="text"
-                                            class="mt-1 block w-full h-10"
-                                            v-model="form.category_id"
-                                            required
-                                            autocomplete="off"
-                                            placeholder="Category"
+                                            :items="categories"
+                                            :model-value="form.category_id"
+                                            v-on:update:model-value="form.category_id = $event.id"
                                         />
                                         <InputError class="mt-1" :message="form.errors.category_id" />
                                     </div>
@@ -138,14 +132,11 @@
                                             for="unit_id"
                                             value="Unit"
                                         />
-                                        <TextInput
+                                        <ListBox
                                             id="unit_id"
-                                            type="text"
-                                            class="mt-1 block w-full h-10"
-                                            v-model="form.unit_id"
-                                            required
-                                            autocomplete="off"
-                                            placeholder="Unit"
+                                            :items="units"
+                                            :model-value="form.unit_id"
+                                            v-on:update:model-value="form.unit_id = $event.id"
                                         />
                                         <InputError class="mt-1" :message="form.errors.unit_id" />
                                     </div>
@@ -233,11 +224,35 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import Swal from 'sweetalert2'
 import { router } from '@inertiajs/vue3'
 import InputError from '@/Components/InputError.vue'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import ListBox from '@/Components/ListBox.vue'
 
 const moduleName = 'Products'
 const url = 'products'
 const pageTitle = 'Create Products'
+
+const academic_year_array = ref([])
+const curriculum_array = ref([])
+
+const props = defineProps({
+    categories: Array,
+    units: Array,
+});
+
+onMounted(() => {
+    props.categories.forEach((item) => {
+        academic_year_array.value.push({
+            id: item.id,
+            name: item.name
+        })
+    });
+    props.units.forEach((item) => {
+        curriculum_array.value.push({
+            id: item.id,
+            name: item.name
+        })
+    });
+})
 
 const form = useForm({
     photo: null,
