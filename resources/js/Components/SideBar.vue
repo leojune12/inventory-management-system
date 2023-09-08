@@ -7,65 +7,51 @@
             id="drawer-navigation"
         >
             <div class="overflow-y-auto py-5 px-3 h-full bg-white">
+                <!-- <component :is="UsersIcon" class="h-6 w-6 text-gray-600 transition duration-75 group-hover:text-gray-900"></component> -->
                 <ul class="space-y-2">
-                    <li>
+                    <li
+                        v-for="item in firstGroupLinks"
+                    >
                         <Link
-                            href="/dashboard"
-                            class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg hover:bg-gray-100 group"
+                            :href="item.href"
+                            class="flex items-center p-2 text-base font-medium rounded-lg group"
+                            :class="[$page.url.startsWith(item.route) ? 'bg-blue-500 hover:bg-blue-600 text-white' : 'text-gray-900 hover:bg-gray-100']"
                         >
-                            <PresentationChartBarIcon class="h-6 w-6 text-gray-600 transition duration-75 group-hover:text-gray-900" />
-                            <span class="ml-3">Dashboard</span>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link
-                            href="/dashboard"
-                            class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg hover:bg-gray-100 group"
-                        >
-                            <ShoppingCartIcon class="h-6 w-6 text-gray-600 transition duration-75 group-hover:text-gray-900" />
-                            <span class="ml-3">POS</span>
+                            <!-- <PresentationChartBarIcon class="h-6 w-6 transition duration-75" /> -->
+                            <component :is="item.icon" class="h-6 w-6 transition duration-75"></component>
+                            <span class="ml-3">{{ item.title }}</span>
                         </Link>
                     </li>
                 </ul>
 
                 <ul class="pt-5 mt-5 space-y-2 border-t border-gray-200">
-                    <li>
+                    <li
+                        v-for="item in secondGroupLinks"
+                    >
                         <Link
-                            href="/products"
-                            class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg hover:bg-gray-100 group"
+                            :href="item.href"
+                            class="flex items-center p-2 text-base font-medium rounded-lg group"
+                            :class="[$page.url.startsWith(item.route) ? 'bg-blue-500 hover:bg-blue-600 text-white' : 'text-gray-900 hover:bg-gray-100']"
                         >
-                            <ShoppingBagIcon class="h-6 w-6 text-gray-600 transition duration-75 group-hover:text-gray-900" />
-                            <span class="ml-3">Products</span>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link
-                            href="/categories"
-                            class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg hover:bg-gray-100 group"
-                        >
-                            <TagIcon class="h-6 w-6 text-gray-600 transition duration-75 group-hover:text-gray-900" />
-                            <span class="ml-3">Categories</span>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link
-                            href="/units"
-                            class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg hover:bg-gray-100 group"
-                        >
-                            <TagIcon class="h-6 w-6 text-gray-600 transition duration-75 group-hover:text-gray-900" />
-                            <span class="ml-3">Units</span>
+                            <!-- <PresentationChartBarIcon class="h-6 w-6 transition duration-75" /> -->
+                            <component :is="item.icon" class="h-6 w-6 transition duration-75"></component>
+                            <span class="ml-3">{{ item.title }}</span>
                         </Link>
                     </li>
                 </ul>
 
                 <ul class="pt-5 mt-5 space-y-2 border-t border-gray-200">
-                    <li>
+                    <li
+                        v-for="item in thirdGroupLinks"
+                    >
                         <Link
-                            href="/dashboard"
-                            class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg hover:bg-gray-100 group"
+                            :href="item.href"
+                            class="flex items-center p-2 text-base font-medium rounded-lg group"
+                            :class="[route().current(item.route) ? 'bg-blue-500 hover:bg-blue-600 text-white' : 'text-gray-900 hover:bg-gray-100']"
                         >
-                            <UsersIcon class="h-6 w-6 text-gray-600 transition duration-75 group-hover:text-gray-900" />
-                            <span class="ml-3">Users</span>
+                            <!-- <PresentationChartBarIcon class="h-6 w-6 transition duration-75" /> -->
+                            <component :is="item.icon" class="h-6 w-6 transition duration-75"></component>
+                            <span class="ml-3">{{ item.title }}</span>
                         </Link>
                     </li>
                 </ul>
@@ -201,4 +187,49 @@
     import { Link } from '@inertiajs/vue3';
 
     const sidebar = useSidebarStore()
+
+    const firstGroupLinks = [
+        {
+            href: '/dashboard',
+            route: '/dashboard',
+            title: 'Dashboard',
+            icon: PresentationChartBarIcon,
+        },
+        {
+            href: '/pos',
+            route: '/pos',
+            title: 'POS',
+            icon: ShoppingCartIcon,
+        }
+    ]
+
+    const secondGroupLinks = [
+        {
+            href: '/products',
+            route: '/products',
+            title: 'Products',
+            icon: ShoppingBagIcon,
+        },
+        {
+            href: '/categories',
+            route: '/categories',
+            title: 'Categories',
+            icon: TagIcon,
+        },
+        {
+            href: '/units',
+            route: '/units',
+            title: 'Units',
+            icon: TagIcon,
+        }
+    ]
+
+    const thirdGroupLinks = [
+        {
+            href: '/users',
+            route: '/users',
+            title: 'Users',
+            icon: UsersIcon,
+        },
+    ]
 </script>
