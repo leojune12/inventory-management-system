@@ -20,7 +20,7 @@
                 <TextInput
                     id="search"
                     type="text"
-                    class="block w-full border-r-0 rounded-r-none ring-0 rounded-lg border-2 h-10"
+                    class="block w-full border-r-0 rounded-r-none ring-0 rounded-lg border h-10"
                     v-model="search"
                     required
                     placeholder="Search"
