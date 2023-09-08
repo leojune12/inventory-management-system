@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\File;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateProductRequest extends FormRequest
@@ -23,6 +24,11 @@ class UpdateProductRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'photo' => [
+                'nullable',
+                File::image()
+                ->max(5 * 1024),
+            ],
             'name' => [
                 'required',
                 'max:50',
