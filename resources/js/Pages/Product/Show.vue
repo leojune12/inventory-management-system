@@ -33,7 +33,7 @@
                             </div>
                             <div>
                                 <div class="mb-2 flex flex-col items-center">
-                                    <img :src="props.model.product_photo != null & props.model.product_photo != '' ? props.model.product_photo : '/product-no-image.png'" class="w-44 h-44 object-cover border border-gray-300 mb-2 rounded-md" />
+                                    <img :src="model.product_photo != null & model.product_photo != '' ? model.product_photo : '/product-no-image.png'" class="w-44 h-44 object-cover border border-gray-300 mb-2 rounded-md" />
                                 </div>
                             </div>
                         </div>
@@ -41,7 +41,7 @@
                     <div class="col-span-2">
                         <div class="py-4 lg:py-6 p-4 bg-white rounded-lg shadow">
                             <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
-                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                                <h3 class="text-lg font-semibold text-gray-900">
                                     Details
                                 </h3>
                             </div>
@@ -56,14 +56,13 @@
                                             id="name"
                                             type="text"
                                             class="mt-1 block w-full h-10 bg-gray-100"
-                                            v-model="form.name"
+                                            v-model="model.name"
                                             required
                                             autofocus
                                             autocomplete="off"
                                             placeholder="Name"
                                             disabled
                                         />
-                                        <InputError class="mt-1" :message="form.errors.name" />
                                     </div>
                                     <div class="">
                                         <InputLabel
@@ -74,13 +73,12 @@
                                             id="product_code"
                                             type="text"
                                             class="mt-1 block w-full h-10 bg-gray-100"
-                                            v-model="form.product_code"
+                                            v-model="model.product_code"
                                             required
                                             autocomplete="off"
                                             placeholder="Product Code"
                                             disabled
                                         />
-                                        <InputError class="mt-1" :message="form.errors.product_code" />
                                     </div>
                                 </div>
                                 <div class="grid gap-4 md:grid-cols-2 sm:gap-6 mb-5">
@@ -93,13 +91,12 @@
                                             id="category_id"
                                             type="text"
                                             class="mt-1 block w-full h-10 bg-gray-100"
-                                            v-model="form.category_id"
+                                            v-model="model.category.name"
                                             required
                                             autocomplete="off"
                                             placeholder="Category"
                                             disabled
                                         />
-                                        <InputError class="mt-1" :message="form.errors.category_id" />
                                     </div>
                                     <div class="">
                                         <InputLabel
@@ -110,13 +107,12 @@
                                             id="unit_id"
                                             type="text"
                                             class="mt-1 block w-full h-10 bg-gray-100"
-                                            v-model="form.unit_id"
+                                            v-model="model.unit.name"
                                             required
                                             autocomplete="off"
                                             placeholder="Unit"
                                             disabled
                                         />
-                                        <InputError class="mt-1" :message="form.errors.unit_id" />
                                     </div>
                                 </div>
                                 <div class="grid gap-4 md:grid-cols-2 sm:gap-6 mb-5">
@@ -129,13 +125,12 @@
                                             id="buying_price"
                                             type="text"
                                             class="mt-1 block w-full h-10 bg-gray-100"
-                                            v-model="form.buying_price"
+                                            v-model="model.buying_price"
                                             required
                                             autocomplete="off"
                                             placeholder="Buying Price"
                                             disabled
                                         />
-                                        <InputError class="mt-1" :message="form.errors.buying_price" />
                                     </div>
                                     <div class="">
                                         <InputLabel
@@ -146,13 +141,12 @@
                                             id="selling_price"
                                             type="text"
                                             class="mt-1 block w-full h-10 bg-gray-100"
-                                            v-model="form.selling_price"
+                                            v-model="model.selling_price"
                                             required
                                             autocomplete="off"
                                             placeholder="Selling Price"
                                             disabled
                                         />
-                                        <InputError class="mt-1" :message="form.errors.selling_price" />
                                     </div>
                                 </div>
                                 <div class="grid gap-4 md:grid-cols-2 sm:gap-6 mb-5">
@@ -165,18 +159,17 @@
                                             id="stock"
                                             type="text"
                                             class="mt-1 block w-full h-10 bg-gray-100"
-                                            v-model="form.stock"
+                                            v-model="model.stock"
                                             required
                                             autocomplete="off"
                                             placeholder="Stock"
                                             disabled
                                         />
-                                        <InputError class="mt-1" :message="form.errors.stock" />
                                     </div>
                                 </div>
                                 <div class="flex flex-col md:flex-row gap-3 md:gap-2">
                                     <DynamicLink
-                                        :href="'/' + url + '/' + props.model.id.toString() + '/edit'"
+                                        :href="'/' + url + '/' + model.id.toString() + '/edit'"
                                         type="primary"
                                     >
                                         Edit
@@ -197,15 +190,13 @@
     </AuthenticatedLayout>
 </template>
 <script setup>
-import { Head, useForm } from '@inertiajs/vue3'
+import { Head } from '@inertiajs/vue3'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import { TagIcon } from '@heroicons/vue/24/solid'
 import Breadcrumb from '@/Components/Breadcrumb.vue'
 import TextInput from '@/Components/TextInput.vue'
 import InputLabel from '@/Components/InputLabel.vue'
 import DynamicLink from '@/Components/DynamicLink.vue'
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import InputError from '@/Components/InputError.vue'
 
 const moduleName = 'Products'
 const url = 'products'
@@ -215,18 +206,9 @@ const props = defineProps({
     model: Object,
 });
 
-const form = useForm({
-    id: props.model.id,
-    photo: null,
-    remove_photo: false,
-    name: props.model.name,
-    product_code: props.model.product_code,
-    category_id: props.model.category_id.toString(),
-    unit_id: props.model.unit_id.toString(),
-    buying_price: props.model.buying_price,
-    selling_price: props.model.selling_price,
-    stock: props.model.stock.toString(),
-})
+const model = props.model
+// Convert Number to String
+model.stock = model.stock.toString()
 </script>
 <style lang="">
 
