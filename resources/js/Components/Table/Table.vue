@@ -18,12 +18,11 @@
             </div>
             <div class="flex md:w-80s w-auto">
                 <TextInput
-                    id="id_number"
+                    id="search"
                     type="text"
                     class="block w-full border-r-0 rounded-r-none ring-0 rounded-lg border-2 h-10"
                     v-model="search"
                     required
-                    autocomplete="id_number"
                     placeholder="Search"
                 />
                 <DynamicLink
