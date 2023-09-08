@@ -82,9 +82,15 @@
 
                     <div v-if="preview" class="mb-2">
                         <img :src="preview" class="w-44 h-44 object-cover rounded-full border-4 border-gray-300" />
-                        <div v-if="!!form.photo">
+                        <div v-if="!!form.photo" class="text-sm text-gray-500">
                             <p class="mb-0">File name: {{ form.photo.name }}</p>
                             <p class="mb-0">Size: {{ (form.photo.size/1024).toFixed(2) }}KB</p>
+                        </div>
+                    </div>
+
+                    <div v-else class="mb-3">
+                        <div class="w-44 h-44 rounded-full bg-green-200 flex justify-center items-center border-4 border-gray-300 text-7xl text-green-700">
+                            {{ usePage().props.auth.user.name[0] }}
                         </div>
                     </div>
 

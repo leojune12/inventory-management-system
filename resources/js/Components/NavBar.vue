@@ -36,7 +36,7 @@
                                 />
                                 <div
                                     v-else
-                                    class="bg-green-200 w-8 h-8 rounded-full flex justify-center items-center border-2 border-gray-300"
+                                    class="bg-green-200 text-green-700 w-8 h-8 rounded-full flex justify-center items-center border-2 border-gray-300"
                                 >
                                     {{ usePage().props.auth.user.name[0] }}
                                 </div>
