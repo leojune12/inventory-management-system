@@ -53,7 +53,7 @@
                                     <button
                                         @click="browseFile()"
                                         type="button"
-                                        class="h-8 bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-3 text-sm"
+                                        class="h-8 bg-blue-500 hover:bg-blue-600 text-white rounded-md px-3 text-sm"
                                     >
                                         Browse File
                                     </button>
@@ -61,7 +61,7 @@
                                         v-if="preview"
                                         @click="resetFile()"
                                         type="button"
-                                        class="h-8 bg-red-500 hover:bg-red-600 text-white rounded-lg px-3 text-sm"
+                                        class="h-8 bg-red-500 hover:bg-red-600 text-white rounded-md px-3 text-sm"
                                     >
                                         Remove
                                     </button>
