@@ -43,7 +43,7 @@
 
                                 <div class="mb-2 flex flex-col items-center">
                                     <img :src="preview != null & preview != '' ? preview : '/product-no-image.png'" class="w-44 h-44 object-cover border border-gray-300 mb-2 rounded-md" />
-                                    <div v-if="!!form.photo">
+                                    <div v-if="!!form.photo" class="text-sm text-gray-500">
                                         <p class="mb-0">File name: {{ form.photo.name }}</p>
                                         <p class="mb-0">Size: {{ (form.photo.size/1024).toFixed(2) }}KB</p>
                                     </div>
