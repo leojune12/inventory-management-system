@@ -2,11 +2,11 @@
     <div class="hidden md:block">
         <div class="w-64 h-screen"></div>
         <aside
-            class="fixed top-16 left-0 z-40 w-64 h-screen transition-transform -translate-x-full bg-white border-r border-gray-300 md:translate-x-0 shadow-lg"
+            class="fixed top-16 left-0 w-64 h-screen transition-transform -translate-x-full bg-white border-r border-gray-300 md:translate-x-0 shadow-lg"
             aria-label="Sidenav"
             id="drawer-navigation"
         >
-            <div class="overflow-y-auto py-5 px-3 h-full bg-white">
+            <div class="overflow-y-hidden hover:overflow-y-auto py-5 px-3 h-full bg-white pb-20 aside-md">
                 <ul class="space-y-2">
                     <li
                         v-for="item in firstGroupLinks"
@@ -62,7 +62,7 @@
                         <Link
                             :href="item.href"
                             class="flex items-center p-2 text-base font-medium rounded-lg group"
-                            :class="[route().current(item.route) ? 'bg-blue-500 hover:bg-blue-600 text-white' : 'text-gray-900 hover:bg-gray-100']"
+                            :class="[$page.url.startsWith(item.route) ? 'bg-blue-500 hover:bg-blue-600 text-white' : 'text-gray-900 hover:bg-gray-100']"
                         >
                             <!-- <PresentationChartBarIcon class="h-6 w-6 transition duration-75" /> -->
                             <component :is="item.icon" class="h-6 w-6 transition duration-75"></component>
@@ -263,3 +263,21 @@
         },
     ]
 </script>
+<style lang="scss" scoped>
+    .aside-md {
+        &::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            background-color: #F5F5F5;
+        }
+        &::-webkit-scrollbar {
+            width: 8px;
+            background-color: #F5F5F5;
+        }
+        &::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.1);
+            background-color: #e7e7e7;
+        }
+    }
+</style>
