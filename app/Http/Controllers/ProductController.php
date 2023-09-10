@@ -68,7 +68,7 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        $validated = $request->validated();
+        $validated = $request->safe()->except(['photo']);
         DB::beginTransaction();
         try {
             $product = Product::create($validated);

@@ -231,29 +231,11 @@ const moduleName = 'Products'
 const url = 'products'
 const pageTitle = 'Update Product'
 
-const academic_year_array = ref([])
-const curriculum_array = ref([])
-
 const props = defineProps({
     model: Object,
     categories: Array,
     units: Array,
 });
-
-onMounted(() => {
-    props.categories.forEach((item) => {
-        academic_year_array.value.push({
-            id: item.id,
-            name: item.name
-        })
-    });
-    props.units.forEach((item) => {
-        curriculum_array.value.push({
-            id: item.id,
-            name: item.name
-        })
-    });
-})
 
 const form = useForm({
     id: props.model.id,

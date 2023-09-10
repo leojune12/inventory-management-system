@@ -105,11 +105,12 @@
                                         <TextInput
                                             id="product_code"
                                             type="text"
-                                            class="mt-1 block w-full h-10"
+                                            class="mt-1 block w-full h-10 bg-gray-100"
                                             v-model="form.product_code"
                                             required
                                             autocomplete="off"
                                             placeholder="Product Code"
+                                            disabled
                                         />
                                         <InputError class="mt-1" :message="form.errors.product_code" />
                                     </div>
@@ -182,7 +183,7 @@
                                         />
                                         <TextInput
                                             id="stock"
-                                            type="text"
+                                            type="number"
                                             class="mt-1 block w-full h-10"
                                             v-model="form.stock"
                                             required
@@ -230,28 +231,11 @@ const moduleName = 'Products'
 const url = 'products'
 const pageTitle = 'Create Product'
 
-const academic_year_array = ref([])
-const curriculum_array = ref([])
-
 const props = defineProps({
     categories: Array,
     units: Array,
 });
 
-onMounted(() => {
-    props.categories.forEach((item) => {
-        academic_year_array.value.push({
-            id: item.id,
-            name: item.name
-        })
-    });
-    props.units.forEach((item) => {
-        curriculum_array.value.push({
-            id: item.id,
-            name: item.name
-        })
-    });
-})
 
 const form = useForm({
     photo: null,

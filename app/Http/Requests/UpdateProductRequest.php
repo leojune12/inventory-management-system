@@ -34,7 +34,11 @@ class UpdateProductRequest extends FormRequest
                 'max:50',
                 Rule::unique('products')->ignore($this->id)
             ],
-            'product_code' => 'nullable',
+            'product_code' => [
+                'required',
+                'max:50',
+                Rule::unique('products')->ignore($this->id)
+            ],
             'buying_price' => 'required|numeric',
             'selling_price' => 'required|numeric',
             'category_id' => 'required|integer|exists:categories,id',
