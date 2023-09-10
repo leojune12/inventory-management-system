@@ -79,7 +79,6 @@
                                             class="mt-1 block w-full h-10"
                                             v-model="form.phone_number"
                                             required
-                                            autofocus
                                             autocomplete="off"
                                             placeholder="Phone Number"
                                         />
@@ -115,7 +114,6 @@
                                             class="mt-1 block w-full h-10"
                                             v-model="form.shop_name"
                                             required
-                                            autofocus
                                             autocomplete="off"
                                             placeholder="Shop"
                                         />
@@ -150,7 +148,6 @@
                                             class="mt-1 block w-full h-10"
                                             v-model="form.account_holder"
                                             required
-                                            autofocus
                                             autocomplete="off"
                                             placeholder="Account Holder"
                                         />
