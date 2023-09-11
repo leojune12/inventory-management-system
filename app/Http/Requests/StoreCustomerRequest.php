@@ -22,8 +22,8 @@ class StoreCustomerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|max:50|unique:suppliers',
-            'email' => 'nullable|email|max:50|unique:suppliers',
+            'name' => 'required|max:50|unique:customers',
+            'email' => 'nullable|email|max:50|unique:customers',
             'phone_number' => 'nullable|max:50',
             'address' => 'nullable|max:100',
             'shop_name' => 'nullable|max:50',

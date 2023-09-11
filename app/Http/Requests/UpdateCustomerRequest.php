@@ -26,13 +26,13 @@ class UpdateCustomerRequest extends FormRequest
             'name' => [
                 'required',
                 'max:50',
-                Rule::unique('suppliers')->ignore($this->id)
+                Rule::unique('customers')->ignore($this->id)
             ],
             'email' => [
                 'nullable',
                 'email',
                 'max:50',
-                Rule::unique('suppliers')->ignore($this->id)
+                Rule::unique('customers')->ignore($this->id)
             ],
             'phone_number' => 'nullable|max:50',
             'address' => 'nullable|max:100',
