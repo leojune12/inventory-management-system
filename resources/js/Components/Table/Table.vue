@@ -25,12 +25,13 @@
                     required
                     placeholder="Search"
                     autocomplete="off"
+                    @keyup.enter="searchRecords()"
                 />
                 <DynamicLink
-                    :href="search ? '/' + props.url + '/?search=' + search : '/' + props.url"
                     type="success"
                     class="h-10 rounded-l-none"
                     title="Search"
+                    @click="searchRecords()"
                 >
                     <MagnifyingGlassIcon
                         class="h-6 w-6"
@@ -92,6 +93,7 @@ import { MagnifyingGlassIcon, ChevronUpDownIcon } from '@heroicons/vue/24/outlin
 import { ref } from 'vue'
 import TextInput from '@/Components/TextInput.vue'
 import DynamicLink from '@/Components/DynamicLink.vue'
+import { router } from '@inertiajs/vue3'
 
 const props = defineProps({
     response: Object,
@@ -140,6 +142,10 @@ const setOrderBy = (column) => {
             orderBy.value = ''
         }
     }
+}
+
+const searchRecords = () => {
+    router.get(search.value ? '/' + props.url + '/?search=' + search.value : '/' + props.url)
 }
 </script>
 <style lang="">
