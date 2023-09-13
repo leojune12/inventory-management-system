@@ -165,6 +165,7 @@
                                                 <td class="px-4 py-3 text-gray-700">
                                                     <TextInput
                                                         type="number"
+                                                        min="1"
                                                         class="mt-1 block w-full h-10"
                                                         v-model="purchase_item.quantity"
                                                         required
@@ -176,6 +177,7 @@
                                                 <td class="px-4 py-3 text-gray-700">
                                                     <TextInput
                                                         type="number"
+                                                        min="1"
                                                         class="mt-1 block w-full h-10"
                                                         v-model="purchase_item.unit_cost"
                                                         required
@@ -208,7 +210,7 @@
                                                 class="bg-white border-b"
                                             >
                                                 <td
-                                                    colspan="5"
+                                                    colspan="6"
                                                     class="text-sm text-gray-900 font-light px-6 py-3 whitespace-nowrap text-center"
                                                 >
                                                     No product
@@ -226,19 +228,29 @@
                                                         {{ totalCost }}
                                                     </span>
                                                 </td>
-                                                <td>
-                                                    <button
-                                                        type="submit"
-                                                        class="w-full bg-green-500 hover:bg-green-600 h-10 px-3 rounded-md text-white">
-                                                        Purchase
-                                                    </button>
-                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                             </template>
                         </Card>
+                    </div>
+                </div>
+                <div class="pt-4 border-t">
+                    <div class="flex flex-col md:flex-row justify-between gap-3 md:gap-2">
+                        <DynamicLink
+                            :href="'/' + url"
+                            type="secondary"
+                        >
+                            Back
+                        </DynamicLink>
+                        <button
+                            v-if="form.purchase_items.length"
+                            :class="[form.purchase_items.length ? '' : 'backdrop-opacity-10']"
+                            type="submit"
+                            class="bg-green-500 hover:bg-green-600 h-10 px-3 rounded-md text-white">
+                            Purchase
+                        </button>
                     </div>
                 </div>
             </form>
@@ -262,6 +274,7 @@ import InputError from '@/Components/InputError.vue'
 import { ref, watch } from 'vue'
 import ListBox from '@/Components/ListBox.vue'
 import Card from '@/Components/Card.vue'
+import DynamicLink from '@/Components/DynamicLink.vue'
 
 const moduleName = 'Purchases'
 const url = 'purchases'
@@ -358,7 +371,7 @@ let addProductToList = () => {
         if (!idExistArray.length) {
 
             // Add fields
-            selectedProduct.value.quantity = ''
+            selectedProduct.value.quantity = '1'
             selectedProduct.value.unit_cost = ''
             selectedProduct.value.total = '0.00'
 
