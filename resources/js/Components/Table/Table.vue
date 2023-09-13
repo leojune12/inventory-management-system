@@ -24,6 +24,7 @@
                     v-model="search"
                     required
                     placeholder="Search"
+                    autocomplete="off"
                 />
                 <DynamicLink
                     :href="search ? '/' + props.url + '/?search=' + search : '/' + props.url"
