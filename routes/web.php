@@ -1,6 +1,7 @@
 <?php
 
 use Inertia\Inertia;
+use App\Services\API\ProductService;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\UnitController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\SupplierController;
 
 /*
@@ -49,7 +51,12 @@ Route::group(['middleware' => ['auth', 'verified', 'role:admin']], function () {
         'suppliers' => SupplierController::class,
         'customers' => CustomerController::class,
         'users' => UserController::class,
+        'purchases' => PurchaseController::class,
     ]);
+
+    Route::get('/products-list/{category_id}', function (string $category_id) {
+        return ProductService::getProducts($category_id);
+    })->name('products-list');
 });
 
 require __DIR__.'/auth.php';
