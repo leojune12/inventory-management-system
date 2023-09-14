@@ -17,27 +17,30 @@
                 </select>
             </div>
             <div class="flex">
-                <div class="flex md:w-80s w-auto group">
-                    <TextInput
-                        id="search"
-                        type="text"
-                        class="block w-full border-r-0 rounded-r-none ring-0 rounded-lg border h-10"
-                        v-model="search"
-                        required
-                        placeholder="Search"
-                        autocomplete="off"
-                        @keyup.enter="searchRecords()"
-                    />
-                    <DynamicLink
-                        type="success"
-                        class="h-10 rounded-l-none"
-                        title="Search"
-                        @click="searchRecords()"
-                    >
+                <div class="flex items-center rounded-lg shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-inset focus-within:ring-blue-600 bg-white h-10 w-full md:w-auto pr-7 relative">
+                    <span class="flex select-none items-center pl-3 text-gray-500 sm:text-sm">
                         <MagnifyingGlassIcon
                             class="h-6 w-6"
                         />
-                    </DynamicLink>
+                    </span>
+                    <input
+                        type="text"
+                        id="search"
+                        autocomplete="off"
+                        class="block flex-1 border-0 bg-transparent py-1.5 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                        placeholder="Search"
+                        v-model="search"
+                        @keyup.enter="searchRecords()"
+                    >
+                    <button
+                        v-if="search"
+                        class="w-6 h-6 flex items-center justify-center absolute right-2"
+                        @click="clearSearch()"
+                    >
+                        <XMarkIcon
+                            class="h-4 w-4"
+                        />
+                    </button>
                 </div>
             </div>
         </div>
@@ -92,7 +95,11 @@
 </template>
 <script setup>
 import PaginationComponent from '@/Components/Table/Pagination.vue'
-import { MagnifyingGlassIcon, ChevronUpDownIcon } from '@heroicons/vue/24/outline'
+import {
+    MagnifyingGlassIcon,
+    ChevronUpDownIcon,
+    XMarkIcon,
+} from '@heroicons/vue/24/outline'
 import { ref } from 'vue'
 import TextInput from '@/Components/TextInput.vue'
 import InputLabel from '@/Components/InputLabel.vue'
@@ -154,6 +161,11 @@ const setOrderBy = (column) => {
 
 const searchRecords = () => {
     router.get(search.value ? '/' + props.url + '/?search=' + search.value : '/' + props.url)
+}
+
+const clearSearch = () => {
+    search.value = ''
+    searchRecords()
 }
 </script>
 <style lang="scss">
