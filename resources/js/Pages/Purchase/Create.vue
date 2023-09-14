@@ -2,7 +2,7 @@
     <Head :title="pageTitle" />
 
     <AuthenticatedLayout>
-        <div class="pt-12 pb-12 lg:pb-40 grid px-4 sm:px-6 lg:px-8">
+        <div class="pt-12 pb-12 grid px-4 sm:px-6 lg:px-8">
             <div class="mb-4">
                 <div class="mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-y-4 sm:gap-y-0">
                     <div class="flex items-center justify-start text-gray-500">
