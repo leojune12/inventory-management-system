@@ -33,6 +33,7 @@ class PurchaseController extends Controller
             ],
             'dateFrom' => $request->dateFrom ?? '',
             'dateUntil' => $request->dateUntil ?? '',
+            'status' => $request->status ?? ''
         ]);
     }
 
@@ -54,6 +55,9 @@ class PurchaseController extends Controller
         })
         ->when($request->dateFrom != '', function ($query) use ($request) {
             return $query->where($this->tableName . '.purchase_date', '>=', $request->dateFrom);
+        })
+        ->when($request->status != '', function ($query) use ($request) {
+            return $query->where($this->tableName . '.is_approved', $request->status);
         })
 
         ->paginate($request->perPage ?? 10);

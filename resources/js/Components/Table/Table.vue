@@ -101,9 +101,6 @@ import {
     XMarkIcon,
 } from '@heroicons/vue/24/outline'
 import { ref } from 'vue'
-import TextInput from '@/Components/TextInput.vue'
-import InputLabel from '@/Components/InputLabel.vue'
-import DynamicLink from '@/Components/DynamicLink.vue'
 import { router } from '@inertiajs/vue3'
 
 const props = defineProps({
@@ -169,7 +166,5 @@ const clearSearch = () => {
 }
 </script>
 <style lang="scss">
-    .date-picker-input {
-        @apply h-10 border-gray-300 shadow-sm text-sm placeholder:text-gray-400 focus:border-blue-600 focus:ring-blue-600 rounded-md w-auto;
-    }
+
 </style>

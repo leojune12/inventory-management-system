@@ -26,30 +26,61 @@
                     />
                 </div>
             </div>
-            <div
-                class="flex md:justify-end mb-4 flex-col md:flex-row gap-x-4 gap-y-2"
-            >
-                <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-inset focus-within:ring-blue-600 bg-white h-10 w-full md:w-auto">
-                    <span class="flex select-none items-center pl-3 text-gray-500 text-sm">From: </span>
-                    <input
-                        type="date"
-                        id="created_from"
-                        autocomplete="off"
-                        class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                        placeholder="From"
-                        v-model="dateFrom"
+            <div class="flex flex-col lg:flex-row justify-between mb-4 gap-y-2">
+                <div class="rounded-lg lg:flex justify-center items-center shadow-sm ring-1 ring-gray-200 block">
+                    <TabGroup
+                        :defaultIndex="statusIndex"
+                        @change="changeStatus"
                     >
+                        <TabList
+                            class="flex space-x-3 rounded-lg h-12 bg-white p-1.5"
+                        >
+                            <Tab
+                                v-for="item in tabItems"
+                                as="template"
+                                :key="item"
+                                v-slot="{ selected }"
+                            >
+                                <button
+                                    :class="[
+                                    'w-full rounded-lg text-sm font-medium leading-5 text-gray-700',
+                                    'focus:outline-none px-5 py-2 flex items-center',
+                                    selected
+                                        ? 'shadow ' + item.class
+                                        : 'hover:bg-gray-50 hover:text-whites',
+                                    ]"
+                                >
+                                    {{ item.title }}
+                                </button>
+                            </Tab>
+                        </TabList>
+                    </TabGroup>
                 </div>
-                <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-inset focus-within:ring-blue-600 bg-white h-10 w-full md:w-auto">
-                    <span class="flex select-none items-center pl-3 text-gray-500 text-sm">Until: </span>
-                    <input
-                        type="date"
-                        id="created_until"
-                        autocomplete="off"
-                        class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                        placeholder="Until"
-                        v-model="dateFrom"
-                    >
+                <div
+                    class="flex mb-4 lg:mb-0 flex-col lg:flex-row gap-x-4 gap-y-2"
+                >
+                    <div class="flex rounded-lg shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-inset focus-within:ring-blue-600 bg-white h-12 w-full md:w-auto">
+                        <span class="flex select-none items-center pl-3 text-gray-500 text-sm">From: </span>
+                        <input
+                            type="date"
+                            id="created_from"
+                            autocomplete="off"
+                            class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                            placeholder="From"
+                            v-model="dateFrom"
+                        >
+                    </div>
+                    <div class="flex rounded-lg shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-inset focus-within:ring-blue-600 bg-white h-12 w-full md:w-auto">
+                        <span class="flex select-none items-center pl-3 text-gray-500 text-sm">Until: </span>
+                        <input
+                            type="date"
+                            id="created_until"
+                            autocomplete="off"
+                            class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                            placeholder="Until"
+                            v-model="dateUntil"
+                        >
+                    </div>
                 </div>
             </div>
             <Table
@@ -60,7 +91,7 @@
                 :order="props.order"
                 :dateFrom="dateFrom"
                 :dateUntil="dateUntil"
-                :additionalArgumentProp="dateFromArgument + dateUntilArgument"
+                :additionalArgumentProp="dateFromArgument + dateUntilArgument + statusArgument"
             >
                 <template #tr>
                     <tr
@@ -156,8 +187,7 @@ import DynamicLink from '@/Components/DynamicLink.vue'
 import Breadcrumb from '@/Components/Breadcrumb.vue'
 import Table from '@/Components/Table/Table.vue'
 import { useDeleteItemStore } from '@/stores/deleteItem'
-import TextInput from '@/Components/TextInput.vue'
-import InputLabel from '@/Components/InputLabel.vue'
+import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
 
 const url = 'purchases'
 const pageTitle = 'Purchases'
@@ -184,6 +214,10 @@ const props = defineProps({
         type: String,
         default: null,
     },
+    status: {
+        type: String,
+        default: '0',
+    }
 })
 
 // column = database column name, used for sortBy, null to disable sorting
@@ -220,12 +254,33 @@ const tableHeader = ref([
     },
 ])
 
+
+const tabItems = ref([
+    {
+        title: "All",
+        class: "bg-blue-100 text-blue-700"
+    },
+    {
+        title: "Pending",
+        class: "bg-amber-100 text-amber-700"
+    },
+    {
+        title: "Approved",
+        class: "bg-green-100 text-green-700"
+    },
+])
+
+// Deep Copy
 const dateFrom = props.dateFrom != ''
     ? ref(JSON.parse(JSON.stringify(props.dateFrom)))
     : ref('')
 
 const dateUntil = props.dateUntil != ''
     ? ref(JSON.parse(JSON.stringify(props.dateUntil)))
+    : ref('')
+
+const status = props.status != ''
+    ? ref(JSON.parse(JSON.stringify(props.status)))
     : ref('')
 
 let dateFromArgument = computed(() => {
@@ -241,6 +296,42 @@ let dateUntilArgument = computed(() => {
             : '') + 'dateUntil=' + dateUntil.value
         : ''
 })
+
+let statusArgument = computed(() => {
+    return status.value != ''
+        ? (dateFromArgument.value != '' || dateUntilArgument.value != ''
+            ? '&'
+            : '') + 'status=' + status.value
+        : ''
+})
+
+let statusIndex = computed(() => {
+    if (status.value == '1') {
+        return 2
+    } else if (status.value == '0') {
+        return 1
+    } else {
+        return 0
+    }
+})
+
+let changeStatus = (index) => {
+    switch (index) {
+        case 0:
+            status.value = ''
+            break;
+        case 1:
+            status.value = '0'
+            break;
+        case 2:
+            status.value = '1'
+            break;
+
+        default:
+            status.value = ''
+            break;
+    }
+}
 </script>
 <style lang="">
 
