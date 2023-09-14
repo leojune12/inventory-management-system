@@ -1,43 +1,4 @@
 <template>
-    <div
-        class="flex justify-end mb-4"
-    >
-        <div
-            v-if="withDate"
-            class="flex gap-x-4"
-        >
-            <div>
-                <InputLabel
-                    for="date-from"
-                    value="From"
-                />
-                <TextInput
-                    type="date"
-                    id="date-from"
-                    class="mt-1 block w-full h-10"
-                    v-model="dateFrom"
-                    required
-                    autocomplete="off"
-                    placeholder="Date From"
-                />
-            </div>
-            <div>
-                <InputLabel
-                    for="date-until"
-                    value="Until"
-                />
-                <TextInput
-                    type="date"
-                    id="date-until"
-                    class="mt-1 block w-full h-10"
-                    v-model="dateUntil"
-                    required
-                    autocomplete="off"
-                    placeholder="Date Until"
-                />
-            </div>
-        </div>
-    </div>
     <div class="space-y-4 bg-white relative shadow-md rounded-lg overflow-hidden z-10">
         <div class="flex justify-between gap-y-4 px-4 pt-5 gap-x-10">
             <div class="flex items-center justify-center gap-x-2">
@@ -125,8 +86,7 @@
             :search="search"
             :orderBy="orderBy"
             :orderType="orderType"
-            :dateFrom="dateFrom"
-            :dateUntil="dateUntil"
+            :additionalArgumentProp="additionalArgumentProp"
         />
     </div>
 </template>
@@ -157,17 +117,9 @@ const props = defineProps({
             orderType: ''
         }
     },
-    dateFrom: {
+    additionalArgumentProp: {
         type: String,
         default: '',
-    },
-    dateUntil: {
-        type: String,
-        default: '',
-    },
-    withDate: {
-        type: Boolean,
-        default: false,
     }
 })
 
@@ -183,14 +135,6 @@ const orderBy = props.order.orderBy != ''
 
 const orderType = props.order.orderType != ''
     ? ref(JSON.parse(JSON.stringify(props.order.orderType)))
-    : ref('')
-
-const dateFrom = props.dateFrom != ''
-    ? ref(JSON.parse(JSON.stringify(props.dateFrom)))
-    : ref('')
-
-const dateUntil = props.dateUntil != ''
-    ? ref(JSON.parse(JSON.stringify(props.dateUntil)))
     : ref('')
 
 const setOrderBy = (column) => {

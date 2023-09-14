@@ -162,14 +162,10 @@ import { ChevronDoubleLeftIcon, ChevronLeftIcon, ChevronDoubleRightIcon, Chevron
                 type: String,
                 default: ''
             },
-            dateFrom: {
+            additionalArgumentProp: {
                 type: String,
                 default: '',
-            },
-            dateUntil: {
-                type: String,
-                default: '',
-            },
+            }
         },
         computed: {
             startPage() {
@@ -239,10 +235,7 @@ import { ChevronDoubleLeftIcon, ChevronLeftIcon, ChevronDoubleRightIcon, Chevron
             orderType: function(newVal, oldVal) {
                 this.queryTable(false, false)
             },
-            dateFrom: function(newVal, oldVal) {
-                this.queryTable(false, false)
-            },
-            dateUntil: function(newVal, oldVal) {
+            additionalArgumentProp: function(newVal, oldVal) {
                 this.queryTable(false, false)
             },
         },
@@ -296,15 +289,10 @@ import { ChevronDoubleLeftIcon, ChevronLeftIcon, ChevronDoubleRightIcon, Chevron
                         ? '&'
                         : '') + 'orderType=' + this.orderType
                     : '')
-                let dateFromArgument = (this.dateFrom != ''
+                let additionalArgument = (this.dateUntil != ''
                     ? (pageArgument != '' || perPageArgument !='' || searchArgument != '' || orderByArgument != '' || orderTypeArgument != ''
                         ? '&'
-                        : '') + 'dateFrom=' + this.dateFrom
-                    : '')
-                let dateUntilArgument = (this.dateUntil != ''
-                    ? (pageArgument != '' || perPageArgument !='' || searchArgument != '' || orderByArgument != '' || orderTypeArgument != '' || dateFromArgument != ''
-                        ? '&'
-                        : '') + 'dateUntil=' + this.dateUntil
+                        : '') + this.additionalArgumentProp
                     : '')
 
                 this.queryString = '?' +
@@ -313,8 +301,7 @@ import { ChevronDoubleLeftIcon, ChevronLeftIcon, ChevronDoubleRightIcon, Chevron
                     searchArgument +
                     orderByArgument +
                     orderTypeArgument +
-                    dateFromArgument +
-                    dateUntilArgument
+                    additionalArgument
 
                 let query = this.url + this.queryString
 

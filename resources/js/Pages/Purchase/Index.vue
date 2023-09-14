@@ -26,6 +26,32 @@
                     />
                 </div>
             </div>
+            <div
+                class="flex md:justify-end mb-4 flex-col md:flex-row gap-x-4 gap-y-2"
+            >
+                <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-inset focus-within:ring-blue-600 bg-white h-10 w-full md:w-auto">
+                    <span class="flex select-none items-center pl-3 text-gray-500 text-sm">From: </span>
+                    <input
+                        type="date"
+                        id="created_from"
+                        autocomplete="off"
+                        class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                        placeholder="From"
+                        v-model="dateFrom"
+                    >
+                </div>
+                <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-inset focus-within:ring-blue-600 bg-white h-10 w-full md:w-auto">
+                    <span class="flex select-none items-center pl-3 text-gray-500 text-sm">Until: </span>
+                    <input
+                        type="date"
+                        id="created_until"
+                        autocomplete="off"
+                        class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                        placeholder="Until"
+                        v-model="dateFrom"
+                    >
+                </div>
+            </div>
             <Table
                 :url="url"
                 :response="props.response"
@@ -34,7 +60,7 @@
                 :order="props.order"
                 :dateFrom="dateFrom"
                 :dateUntil="dateUntil"
-                withDate
+                :additionalArgumentProp="dateFromArgument + dateUntilArgument"
             >
                 <template #tr>
                     <tr
@@ -63,8 +89,10 @@
                         </td>
                         <td class="px-4 py-3 font-medium text-gray-700">
                             <span
-                                class="px-3 py-2 rounded-lg text-white text-xs"
-                                :class="[item.is_approved ? 'bg-green-500' : 'bg-yellow-500']"
+                                class="px-2 py-1 rounded-md text-xs font-bold"
+                                :class="[item.is_approved
+                                ? 'border border-green-300 bg-green-100 text-green-500'
+                                : 'border border-amber-300 bg-amber-100 text-amber-600']"
                             >
                                 {{ item.is_approved ? 'Appoved' : 'Pending' }}
                             </span>
@@ -123,11 +151,13 @@ import {
     PlusIcon
 } from '@heroicons/vue/24/outline'
 import { TruckIcon } from '@heroicons/vue/24/solid'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import DynamicLink from '@/Components/DynamicLink.vue'
 import Breadcrumb from '@/Components/Breadcrumb.vue'
 import Table from '@/Components/Table/Table.vue'
 import { useDeleteItemStore } from '@/stores/deleteItem'
+import TextInput from '@/Components/TextInput.vue'
+import InputLabel from '@/Components/InputLabel.vue'
 
 const url = 'purchases'
 const pageTitle = 'Purchases'
@@ -189,6 +219,28 @@ const tableHeader = ref([
         column: null
     },
 ])
+
+const dateFrom = props.dateFrom != ''
+    ? ref(JSON.parse(JSON.stringify(props.dateFrom)))
+    : ref('')
+
+const dateUntil = props.dateUntil != ''
+    ? ref(JSON.parse(JSON.stringify(props.dateUntil)))
+    : ref('')
+
+let dateFromArgument = computed(() => {
+    return dateFrom.value != ''
+        ? 'dateFrom=' + dateFrom.value
+        : ''
+})
+
+let dateUntilArgument = computed(() => {
+    return dateUntil.value != ''
+        ? (dateFromArgument.value != ''
+            ? '&'
+            : '') + 'dateUntil=' + dateUntil.value
+        : ''
+})
 </script>
 <style lang="">
 
