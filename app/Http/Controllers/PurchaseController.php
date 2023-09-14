@@ -30,7 +30,9 @@ class PurchaseController extends Controller
             'order' => [
                 'orderBy' => $request->orderBy ?? 'id',
                 'orderType' => $request->orderType ?? 'desc'
-            ]
+            ],
+            'dateFrom' => $request->dateFrom ?? '',
+            'dateUntil' => $request->dateUntil ?? '',
         ]);
     }
 
@@ -45,8 +47,15 @@ class PurchaseController extends Controller
         ->orderBy($this->tableName . '.' . ($request->orderBy ?? 'id'), $request->orderType ?? 'desc')
         // Search
         ->when($request->search != '', function ($query) use ($request) {
-                return $query->orWhere($this->tableName . '.purchase_number', 'like', '%' . $request->search . '%');
+                return $query->where($this->tableName . '.purchase_number', 'like', '%' . $request->search . '%');
         })
+        ->when($request->dateUntil != '', function ($query) use ($request) {
+            return $query->where($this->tableName . '.purchase_date', '<=', $request->dateUntil);
+        })
+        ->when($request->dateFrom != '', function ($query) use ($request) {
+            return $query->where($this->tableName . '.purchase_date', '>=', $request->dateFrom);
+        })
+
         ->paginate($request->perPage ?? 10);
 
         return $query;

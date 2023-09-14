@@ -1,4 +1,43 @@
 <template>
+    <div
+        class="flex justify-end mb-4"
+    >
+        <div
+            v-if="withDate"
+            class="flex gap-x-4"
+        >
+            <div>
+                <InputLabel
+                    for="date-from"
+                    value="From"
+                />
+                <TextInput
+                    type="date"
+                    id="date-from"
+                    class="mt-1 block w-full h-10"
+                    v-model="dateFrom"
+                    required
+                    autocomplete="off"
+                    placeholder="Date From"
+                />
+            </div>
+            <div>
+                <InputLabel
+                    for="date-until"
+                    value="Until"
+                />
+                <TextInput
+                    type="date"
+                    id="date-until"
+                    class="mt-1 block w-full h-10"
+                    v-model="dateUntil"
+                    required
+                    autocomplete="off"
+                    placeholder="Date Until"
+                />
+            </div>
+        </div>
+    </div>
     <div class="space-y-4 bg-white relative shadow-md rounded-lg overflow-hidden z-10">
         <div class="flex justify-between gap-y-4 px-4 pt-5 gap-x-10">
             <div class="flex items-center justify-center gap-x-2">
@@ -16,27 +55,29 @@
                     <option value="100">100</option>
                 </select>
             </div>
-            <div class="flex md:w-80s w-auto">
-                <TextInput
-                    id="search"
-                    type="text"
-                    class="block w-full border-r-0 rounded-r-none ring-0 rounded-lg border h-10"
-                    v-model="search"
-                    required
-                    placeholder="Search"
-                    autocomplete="off"
-                    @keyup.enter="searchRecords()"
-                />
-                <DynamicLink
-                    type="success"
-                    class="h-10 rounded-l-none"
-                    title="Search"
-                    @click="searchRecords()"
-                >
-                    <MagnifyingGlassIcon
-                        class="h-6 w-6"
+            <div class="flex">
+                <div class="flex md:w-80s w-auto group">
+                    <TextInput
+                        id="search"
+                        type="text"
+                        class="block w-full border-r-0 rounded-r-none ring-0 rounded-lg border h-10"
+                        v-model="search"
+                        required
+                        placeholder="Search"
+                        autocomplete="off"
+                        @keyup.enter="searchRecords()"
                     />
-                </DynamicLink>
+                    <DynamicLink
+                        type="success"
+                        class="h-10 rounded-l-none"
+                        title="Search"
+                        @click="searchRecords()"
+                    >
+                        <MagnifyingGlassIcon
+                            class="h-6 w-6"
+                        />
+                    </DynamicLink>
+                </div>
             </div>
         </div>
         <div class="overflow-x-auto mb-4">
@@ -84,6 +125,8 @@
             :search="search"
             :orderBy="orderBy"
             :orderType="orderType"
+            :dateFrom="dateFrom"
+            :dateUntil="dateUntil"
         />
     </div>
 </template>
@@ -92,6 +135,7 @@ import PaginationComponent from '@/Components/Table/Pagination.vue'
 import { MagnifyingGlassIcon, ChevronUpDownIcon } from '@heroicons/vue/24/outline'
 import { ref } from 'vue'
 import TextInput from '@/Components/TextInput.vue'
+import InputLabel from '@/Components/InputLabel.vue'
 import DynamicLink from '@/Components/DynamicLink.vue'
 import { router } from '@inertiajs/vue3'
 
@@ -113,6 +157,18 @@ const props = defineProps({
             orderType: ''
         }
     },
+    dateFrom: {
+        type: String,
+        default: '',
+    },
+    dateUntil: {
+        type: String,
+        default: '',
+    },
+    withDate: {
+        type: Boolean,
+        default: false,
+    }
 })
 
 const currentPerPage = ref(JSON.parse(JSON.stringify(props.response.per_page ?? 10)))
@@ -127,6 +183,14 @@ const orderBy = props.order.orderBy != ''
 
 const orderType = props.order.orderType != ''
     ? ref(JSON.parse(JSON.stringify(props.order.orderType)))
+    : ref('')
+
+const dateFrom = props.dateFrom != ''
+    ? ref(JSON.parse(JSON.stringify(props.dateFrom)))
+    : ref('')
+
+const dateUntil = props.dateUntil != ''
+    ? ref(JSON.parse(JSON.stringify(props.dateUntil)))
     : ref('')
 
 const setOrderBy = (column) => {
@@ -148,6 +212,8 @@ const searchRecords = () => {
     router.get(search.value ? '/' + props.url + '/?search=' + search.value : '/' + props.url)
 }
 </script>
-<style lang="">
-
+<style lang="scss">
+    .date-picker-input {
+        @apply h-10 border-gray-300 shadow-sm text-sm placeholder:text-gray-400 focus:border-blue-600 focus:ring-blue-600 rounded-md w-auto;
+    }
 </style>

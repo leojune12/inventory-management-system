@@ -161,7 +161,15 @@ import { ChevronDoubleLeftIcon, ChevronLeftIcon, ChevronDoubleRightIcon, Chevron
             orderType: {
                 type: String,
                 default: ''
-            }
+            },
+            dateFrom: {
+                type: String,
+                default: '',
+            },
+            dateUntil: {
+                type: String,
+                default: '',
+            },
         },
         computed: {
             startPage() {
@@ -218,7 +226,7 @@ import { ChevronDoubleLeftIcon, ChevronLeftIcon, ChevronDoubleRightIcon, Chevron
         },
         data() {
             return {
-                queryString: ''
+                queryString: '',
             }
         },
         watch: {
@@ -230,7 +238,13 @@ import { ChevronDoubleLeftIcon, ChevronLeftIcon, ChevronDoubleRightIcon, Chevron
             },
             orderType: function(newVal, oldVal) {
                 this.queryTable(false, false)
-            }
+            },
+            dateFrom: function(newVal, oldVal) {
+                this.queryTable(false, false)
+            },
+            dateUntil: function(newVal, oldVal) {
+                this.queryTable(false, false)
+            },
         },
         methods: {
             onClickFirstPage() {
@@ -282,13 +296,25 @@ import { ChevronDoubleLeftIcon, ChevronLeftIcon, ChevronDoubleRightIcon, Chevron
                         ? '&'
                         : '') + 'orderType=' + this.orderType
                     : '')
+                let dateFromArgument = (this.dateFrom != ''
+                    ? (pageArgument != '' || perPageArgument !='' || searchArgument != '' || orderByArgument != '' || orderTypeArgument != ''
+                        ? '&'
+                        : '') + 'dateFrom=' + this.dateFrom
+                    : '')
+                let dateUntilArgument = (this.dateUntil != ''
+                    ? (pageArgument != '' || perPageArgument !='' || searchArgument != '' || orderByArgument != '' || orderTypeArgument != '' || dateFromArgument != ''
+                        ? '&'
+                        : '') + 'dateUntil=' + this.dateUntil
+                    : '')
 
                 this.queryString = '?' +
                     pageArgument +
                     perPageArgument +
                     searchArgument +
                     orderByArgument +
-                    orderTypeArgument
+                    orderTypeArgument +
+                    dateFromArgument +
+                    dateUntilArgument
 
                 let query = this.url + this.queryString
 

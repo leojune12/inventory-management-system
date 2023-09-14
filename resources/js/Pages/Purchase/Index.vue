@@ -32,6 +32,9 @@
                 :table-header="tableHeader"
                 :search="props.search"
                 :order="props.order"
+                :dateFrom="dateFrom"
+                :dateUntil="dateUntil"
+                withDate
             >
                 <template #tr>
                     <tr
@@ -142,6 +145,14 @@ const props = defineProps({
             orderBy: '',
             orderType: ''
         }
+    },
+    dateFrom: {
+        type: String,
+        default: null,
+    },
+    dateUntil: {
+        type: String,
+        default: null,
     },
 })
 
