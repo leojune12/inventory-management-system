@@ -43,11 +43,11 @@
                             >
                                 <button
                                     :class="[
-                                    'w-full rounded-lg text-sm font-medium leading-5 text-gray-700',
+                                    'w-full rounded-lg text-sm font-medium leading-5',
                                     'focus:outline-none px-5 py-2 flex items-center',
                                     selected
                                         ? 'shadow ' + item.class
-                                        : 'hover:bg-gray-50 hover:text-whites',
+                                        : 'hover:bg-gray-50 hover:text-whites text-gray-700',
                                     ]"
                                 >
                                     {{ item.title }}
@@ -258,15 +258,15 @@ const tableHeader = ref([
 const tabItems = ref([
     {
         title: "All",
-        class: "bg-blue-100 text-blue-700"
+        class: "bg-blue-100 text-blue-600"
     },
     {
         title: "Pending",
-        class: "bg-amber-100 text-amber-700"
+        class: "bg-amber-100 text-amber-600"
     },
     {
         title: "Approved",
-        class: "bg-green-100 text-green-700"
+        class: "bg-green-100 text-green-600"
     },
 ])
 
