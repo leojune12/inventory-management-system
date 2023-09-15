@@ -70,10 +70,8 @@ class PurchaseController extends Controller
      */
     public function create()
     {
-        $suppliers = Supplier::orderBy('name', 'asc')->get();
-        $categories = Category::orderBy('name', 'asc')->get();
+        $categories = Category::orderBy('name', 'asc')->limit(10)->get();
         return Inertia::render('Purchase/Create', [
-            'suppliers' => $suppliers,
             'categories' => $categories,
         ]);
     }

@@ -55,11 +55,10 @@
                                             for="supplier_id"
                                             value="Supplier"
                                         />
-                                        <ListBox
-                                            id="supplier_id"
+                                        <Combobox
                                             :items="suppliers"
-                                            :model-value="form.supplier_id"
-                                            v-on:update:model-value="form.supplier_id = $event.id"
+                                            ajaxUrl="/search-suppliers?search="
+                                            v-on:update:model-value="form.supplier_id = !!$event ? $event.id : ''"
                                         />
                                         <InputError class="mt-1" :message="form.errors.supplier_id" />
                                     </div>
@@ -273,6 +272,7 @@ import { router } from '@inertiajs/vue3'
 import InputError from '@/Components/InputError.vue'
 import { ref, watch } from 'vue'
 import ListBox from '@/Components/ListBox.vue'
+import Combobox from '@/Components/Combobox.vue'
 import Card from '@/Components/Card.vue'
 import DynamicLink from '@/Components/DynamicLink.vue'
 

@@ -1,7 +1,9 @@
 <?php
 
 use Inertia\Inertia;
+use Illuminate\Http\Request;
 use App\Services\API\ProductService;
+use App\Services\API\SupplierService;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\UnitController;
@@ -56,6 +58,10 @@ Route::group(['middleware' => ['auth', 'verified', 'role:admin']], function () {
 
     Route::get('/products-list/{category_id}', function (string $category_id) {
         return ProductService::getProducts($category_id);
+    })->name('products-list');
+
+    Route::get('/search-suppliers', function (Request $request) {
+        return SupplierService::searchSuppliers($request->search);
     })->name('products-list');
 });
 
