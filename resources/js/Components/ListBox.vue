@@ -28,7 +28,12 @@
                         :value="item"
                         v-slot="{ active, selected }"
                     >
-                        <li :class="[active ? 'text-white bg-blue-600' : 'text-gray-900', 'relative cursor-default select-none py-2 pl-3 pr-9']">
+                        <li
+                            :class="[
+                                active ? 'text-white bg-blue-600' : '', 'relative cursor-default select-none py-2 pl-3 pr-9',
+                                selected ? 'bg-blue-100 text-blue-700' : 'text-gray-900'
+                                ]"
+                        >
                             <div class="flex items-center">
                                 <span :class="[selected ? 'font-semibold' : 'font-normal', 'block truncate']">{{ item.name }}</span>
                             </div>
