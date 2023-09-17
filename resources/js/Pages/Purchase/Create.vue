@@ -23,17 +23,66 @@
                 </div>
             </div>
             <form @submit.prevent="submitForm()" enctype="multipart/form-data">
-                <div class="grid lg:grid-cols-2 gap-y-4 lg:gap-y-0 lg:gap-x-4 mb-4">
-                    <div class="">
-                        <Card>
-                            <template #card-header>
-                                <h3 class="text-lg font-semibold text-gray-900">
-                                    Purchase Details
-                                </h3>
-                            </template>
-                            <template #card-body>
-                                <div class="grid gap-4 mb-5">
-                                    <div class="">
+                <div
+                    class="bg-white grid rounded-lg shadow mb-5"
+                >
+                    <TabGroup
+                        :selectedIndex="selectedTabIndex"
+                        @change="changeTab"
+                    >
+                        <TabList class="items-center w-full flex border-b h-16">
+                            <Tab
+                                v-for="(item, index) in tabHeaders"
+                                :key="index"
+                                v-slot="{ selected }"
+                                class="w-full flex justify-between items-center focus:outline-none"
+                                :disabled="item.disabled"
+                            >
+                                <div class="flex items-center py-4 space-x-2.5 font-medium text-gray-500 sm:text-base px-6">
+                                    <div
+                                        v-if="index < selectedTabIndex"
+                                        class="h-8 w-8 bg-blue-600 rounded-full flex items-center justify-center"
+                                    >
+                                        <CheckIcon
+                                            class="h-5 w-5 text-white"
+                                        />
+                                    </div>
+                                    <span
+                                        v-else
+                                        class="flex items-center justify-center w-8 h-8 border border-blue-600 rounded-full shrink-0"
+                                        :class="[
+                                            selected ? 'text-blue-600 border-blue-600' : 'border-gray-600'
+                                        ]"
+                                    >
+                                        {{ index + 1 }}
+                                    </span>
+                                    <span
+                                        class="text-left"
+                                        :class="[
+                                            selected ? 'text-blue-600' : ''
+                                        ]"
+                                    >
+                                        <h3 class="font-medium leading-tight">{{ item.title }}</h3>
+                                    </span>
+                                </div>
+                                <!-- Tab divider -->
+                                <div
+                                    v-if="index != tabHeaders.length-1"
+                                    class="w-4 h-16"
+                                >
+                                    <svg fill="none" preserveAspectRatio="none" viewBox="0 0 22 80" class="h-full w-full text-gray-200 rtl:rotate-180 dark:text-white/5">
+                                        <path d="M0 -2L20 40L0 82" stroke-linejoin="round" stroke="currentcolor" vector-effect="non-scaling-stroke"></path>
+                                    </svg>
+                                </div>
+                            </Tab>
+                        </TabList>
+                        <TabPanels>
+                            <TabPanel
+                                class="rounded-xl bg-white py-4 px-6 focus:outline-none"
+                                :unmount="false"
+                            >
+                                <div class="grid lg:grid-cols-2 gap-4 mb-5">
+                                    <div class="col-span-1">
                                         <InputLabel
                                             for="purchase_date"
                                             value="Purchase Date"
@@ -50,207 +99,164 @@
                                         />
                                         <InputError class="mt-1" :message="form.errors.purchase_date" />
                                     </div>
-                                    <div class="">
+                                </div>
+                                <div class="grid lg:grid-cols-2 gap-4 mb-5">
+                                    <div class="col-span-1">
                                         <InputLabel
                                             for="supplier_id"
                                             value="Supplier"
                                         />
-                                        <Combobox
-                                            :items="suppliers"
+                                        <ComboBox
                                             ajaxUrl="/search-suppliers?search="
                                             v-on:update:model-value="form.supplier_id = !!$event ? $event.id : ''"
+                                            class="mt-1"
                                         />
                                         <InputError class="mt-1" :message="form.errors.supplier_id" />
                                     </div>
                                 </div>
-                            </template>
-                        </Card>
-                    </div>
-                    <div class="">
-                        <Card>
-                            <template #card-header>
-                                <h3 class="text-lg font-semibold text-gray-900">
-                                    Select Product
-                                </h3>
-                            </template>
-                            <template #card-body>
-                                <div class="flex flex-col gap-y-4">
-                                    <div>
-                                        <InputLabel
-                                            for="category_id"
-                                            value="Category"
-                                        />
-                                        <ListBox
-                                            id="category_id"
-                                            :items="categories"
-                                            v-on:update:model-value="category_id = $event.id"
-                                        />
-                                    </div>
-                                    <div>
-                                        <InputLabel
-                                            for="product_id"
-                                            value="Product"
-                                        />
-                                        <ListBox
-                                            id="product_id"
-                                            :items="products"
-                                            v-on:update:model-value="selectedProduct = $event"
-                                            :reset-index="resetProductIndex"
-                                            v-on:update:reset-index="resetProductIndex = $event"
-                                        />
-                                        <InputError class="mt-1" :message="productErrorMessage" />
-                                    </div>
-                                    <div>
-                                        <button
-                                            type="button"
-                                            class="h-10 w-full flex uppercase items-center justify-center border-2 text-blue-500 border-blue-500 hover:bg-blue-600 px-4 rounded-md hover:text-white text-xs font-bold"
-                                            @click="addProductToList()"
-                                        >
-                                            <PlusIcon class="block h-5 w-5 mr-1" aria-hidden="true" />
-                                            Add to List
-                                        </button>
-                                    </div>
+                                <div class="flex justify-between">
+                                    <DynamicLink
+                                        :href="'/' + url"
+                                        type="secondary"
+                                    >
+                                        Cancel
+                                    </DynamicLink>
+                                    <PrimaryButton
+                                        type="button"
+                                        @click="nextTab()"
+                                    >
+                                        Next
+                                    </PrimaryButton>
                                 </div>
-                            </template>
-                        </Card>
-                    </div>
-                </div>
-                <div class="grid gap-y-4 lg:gap-y-0 lg:gap-x-4">
-                    <div class="">
-                        <Card>
-                            <template #card-header>
-                                <h3 class="text-lg font-semibold text-gray-900">
-                                    Products List
-                                </h3>
-                            </template>
-                            <template #card-body>
-                                <div class="overflow-x-auto">
-                                    <table class="w-full text-sm text-left">
-                                        <thead class="text-gray-700 uppercase bg-gray-200">
-                                            <tr>
-                                                <th class="px-4 py-3">
-                                                    #
-                                                </th>
-                                                <th class="px-4 py-3">
-                                                    Product Name
-                                                </th>
-                                                <th class="px-4 py-3">
-                                                    Quantity
-                                                </th>
-                                                <th class="px-4 py-3">
-                                                    Price
-                                                </th>
-                                                <th class="px-4 py-3">
-                                                    Total
-                                                </th>
-                                                <th class="px-4 py-3">
-                                                    Action
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr
-                                                v-if="form.purchase_items.length"
-                                                v-for="(purchase_item, index) in form.purchase_items"
-                                                :key="index"
-                                                class="border-b hover:bg-gray-100"
-                                            >
-                                                <td class="px-4 py-3 text-gray-700">
-                                                    {{ index + 1 }}
-                                                </td>
-                                                <td class="px-4 py-3 text-gray-700 font-bold">
-                                                    {{ purchase_item.name }}s
-                                                </td>
-                                                <td class="px-4 py-3 text-gray-700">
-                                                    <TextInput
-                                                        type="number"
-                                                        min="1"
-                                                        class="mt-1 block w-full h-10"
-                                                        v-model="purchase_item.quantity"
-                                                        required
-                                                        autocomplete="off"
-                                                        placeholder="Quantity"
-                                                        @input="calculateTotal(purchase_item.id)"
-                                                    />
-                                                </td>
-                                                <td class="px-4 py-3 text-gray-700">
-                                                    <TextInput
-                                                        type="number"
-                                                        min="1"
-                                                        class="mt-1 block w-full h-10"
-                                                        v-model="purchase_item.unit_cost"
-                                                        required
-                                                        autocomplete="off"
-                                                        step=".01"
-                                                        placeholder="Price"
-                                                        @input="calculateTotal(purchase_item.id)"
-                                                    />
-                                                </td>
-                                                <td class="px-4 py-3 text-gray-700">
-                                                    <span class="mt-1 w-full h-10 bg-gray-100 text-right py-2 px-3 rounded-md border-gray-300 border flex items-center justify-end">
-                                                        {{ purchase_item.total }}
-                                                    </span>
-                                                </td>
-                                                <td class="px-4 py-3 text-gray-700">
-                                                    <div class="flex justify-center">
-                                                        <a
-                                                            href="#"
-                                                            class="text-red-400 hover:text-white transition duration-200 ease-in-out border border-red-400 hover:border-red-600 rounded-md h-10 w-10 hover:bg-red-500 flex items-center justify-center"
-                                                            title="Delete"
-                                                            @click="removeProductFromList(purchase_item.id)"
-                                                        >
-                                                            <TrashIcon class="block h-5 w-5" aria-hidden="true" />
-                                                        </a>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr
-                                                v-else
-                                                class="bg-white border-b"
-                                            >
-                                                <td
-                                                    colspan="6"
-                                                    class="text-sm text-gray-900 font-light px-6 py-3 whitespace-nowrap text-center"
+                            </TabPanel>
+                            <TabPanel
+                                class="rounded-xl bg-white py-4 px-6 focus:outline-none"
+                                :unmount="false"
+                            >
+                                <div
+                                    v-for="(item, index) in form.purchase_items"
+                                    :key="index"
+                                >
+                                    <div
+                                        v-if="!item.deleted"
+                                        class="border rounded-lg mb-4"
+                                    >
+                                        <div class="lg:col-span-12 border-b flex items-centers px-4 py-3">
+                                            <div class="text-gray-500">
+                                                <!-- #{{ index + 1 }} -->
+                                            </div>
+                                            <div class="ms-auto">
+                                                <button
+                                                    type="button"
+                                                    class="flex items-center"
+                                                    @click="removeItem(index)"
+                                                    :disabled="!showRemoveButton"
                                                 >
-                                                    No product
-                                                </td>
-                                            </tr>
-                                            <tr
-                                                v-if="form.purchase_items.length"
-                                            >
-                                                <td colspan="3"></td>
-                                                <td class="text-right px-4 py-3 text-gray-700 font-bold text-lg">
-                                                    Total Amount
-                                                </td>
-                                                <td class="px-4 py-3 text-gray-700">
-                                                    <span class="w-full h-10 bg-gray-100 text-right py-2 px-3 rounded-md border-gray-300 border flex items-center justify-end">
-                                                        {{ totalCost }}
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                                    <TrashIcon
+                                                        class="h-5 w-5"
+                                                        :class="[showRemoveButton ? 'text-red-500 hover:text-red-600' : 'text-gray-400']"
+                                                    />
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="grid lg:grid-cols-12 gap-6 px-4 py-3">
+                                            <div class="lg:col-span-6 relative">
+                                                <InputLabel
+                                                    :for="'product_id_' + index"
+                                                    value="Product"
+                                                />
+                                                <ComboBox
+                                                    :id="'product_id_' + index"
+                                                    ajaxUrl="/search-products?search="
+                                                    v-on:update:model-value="item.product_id = !!$event ? $event.id : ''"
+                                                    class="mt-1"
+                                                    required
+                                                />
+
+                                                <InputError class="mt-1" :message="form.errors['purchase_items.'+ index +'.product_id']" />
+                                            </div>
+                                            <div class="lg:col-span-2">
+                                                <InputLabel
+                                                    :for="'quantity_' + index"
+                                                    value="Quantity"
+                                                />
+                                                <TextInput
+                                                    :id="'quantity_' + index"
+                                                    type="number"
+                                                    min="1"
+                                                    class="mt-1 block w-full h-10"
+                                                    v-model="item.quantity"
+                                                    required
+                                                    autocomplete="off"
+                                                    placeholder="Purchase Date"
+                                                    @input="calculateEachItemTotal(index)"
+                                                />
+                                                <InputError class="mt-1" :message="form.errors['purchase_items.'+ index +'.quantity']" />
+                                            </div>
+                                            <div class="lg:col-span-2">
+                                                <InputLabel
+                                                    :for="'unit_cost_' + index"
+                                                    value="Cost"
+                                                />
+                                                <TextInput
+                                                    :id="'unit_cost_' + index"
+                                                    type="number"
+                                                    min="1"
+                                                    step=".01"
+                                                    class="mt-1 block w-full h-10"
+                                                    v-model="item.unit_cost"
+                                                    required
+                                                    autocomplete="off"
+                                                    placeholder="Cost"
+                                                    @input="calculateEachItemTotal(index)"
+                                                />
+                                                <InputError class="mt-1" :message="form.errors['purchase_items.'+ index +'.quantity']" />
+                                            </div>
+                                            <div class="lg:col-span-2">
+                                                <InputLabel
+                                                    :for="'total_' + index"
+                                                    value="Total"
+                                                />
+                                                <TextInput
+                                                    :id="'total_' + index"
+                                                    type="text"
+                                                    class="mt-1 block w-full h-10 bg-slate-100"
+                                                    v-model="item.total"
+                                                    required
+                                                    disabled
+                                                    autocomplete="off"
+                                                    placeholder="Purchase Date"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </template>
-                        </Card>
-                    </div>
-                </div>
-                <div class="pt-4 border-t">
-                    <div class="flex flex-col md:flex-row justify-between gap-3 md:gap-2">
-                        <DynamicLink
-                            :href="'/' + url"
-                            type="secondary"
-                        >
-                            Back
-                        </DynamicLink>
-                        <button
-                            v-if="form.purchase_items.length"
-                            :class="[form.purchase_items.length ? '' : 'backdrop-opacity-10']"
-                            type="submit"
-                            class="bg-green-500 hover:bg-green-600 h-10 px-3 rounded-md text-white">
-                            Purchase
-                        </button>
-                    </div>
+                                <div class="flex justify-center">
+                                    <button
+                                        type="button"
+                                        class="uppercase text-sm font-bold py-2 px-4 border rounded-lg text-green-600 hover:text-green-700 border-green-600 hover:border-green-700 flex items-center gap-x-1"
+                                        @click="addItem()"
+                                    >
+                                        <PlusIcon class="h-4 w-4" />
+                                        Add item
+                                    </button>
+                                </div>
+                                <div class="flex justify-between">
+                                    <SecondaryButton
+                                        type="button"
+                                        @click="prevTab()"
+                                    >
+                                        Back
+                                    </SecondaryButton>
+                                    <PrimaryButton
+                                        @click="nextTab()"
+                                    >
+                                        Save
+                                    </PrimaryButton>
+                                </div>
+                            </TabPanel>
+                        </TabPanels>
+                    </TabGroup>
                 </div>
             </form>
         </div>
@@ -263,6 +269,7 @@ import {
     TruckIcon,
     PlusIcon,
     TrashIcon,
+    CheckIcon,
 } from '@heroicons/vue/24/solid'
 import Breadcrumb from '@/Components/Breadcrumb.vue'
 import TextInput from '@/Components/TextInput.vue'
@@ -271,10 +278,17 @@ import Swal from 'sweetalert2'
 import { router } from '@inertiajs/vue3'
 import InputError from '@/Components/InputError.vue'
 import { ref, watch } from 'vue'
-import ListBox from '@/Components/ListBox.vue'
-import Combobox from '@/Components/Combobox.vue'
-import Card from '@/Components/Card.vue'
+import ComboBox from '@/Components/ComboBox.vue'
 import DynamicLink from '@/Components/DynamicLink.vue'
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+import SecondaryButton from '@/Components/SecondaryButton.vue';
+import {
+    TabGroup,
+    TabList,
+    Tab,
+    TabPanels,
+    TabPanel
+} from '@headlessui/vue'
 
 const moduleName = 'Purchases'
 const url = 'purchases'
@@ -289,11 +303,17 @@ const form = useForm({
     purchase_date: '',
     supplier_id: '',
     category_id: '',
-    purchase_items: [],
+    purchase_items: [{
+        product_id: '',
+        quantity: '1',
+        unit_cost: '',
+        total: '0.00',
+        deleted: false,
+    }],
 })
 
-const totalCost = ref('0.00')
 const productErrorMessage = ref(null)
+const showRemoveButton = ref(false)
 
 // Use for watcher, update form.category_id when value changes
 const category_id = ref('')
@@ -319,20 +339,9 @@ watch(selectedProduct, (newValue, oldValue) => {
     productErrorMessage.value = null
 })
 
-// Calculate total
-let calculateTotal = (id) => {
-    // Total of every product items
-    let productItem = form.purchase_items.filter((item) => item.id == id)[0]
-    if (productItem.quantity != '' && productItem.unit_cost != '') {
-        productItem.total = (parseInt(productItem.quantity) * parseFloat(productItem.unit_cost)).toFixed(2).toString()
-    } else {
-        productItem.total = (0).toFixed(2).toString()
-    }
-
-    // Total cost
-    totalCost.value = form.purchase_items.reduce((accumulator, currentValue) => {
-        return accumulator + parseFloat(currentValue.total)
-    }, 0).toFixed(2).toString()
+let calculateEachItemTotal = (index) => {
+    let item = form.purchase_items[index]
+    form.purchase_items[index].total = (parseInt(item.quantity == '' ? 0 : item.quantity) * parseFloat(item.unit_cost == '' ? 0 : item.unit_cost)).toFixed(2).toString()
 }
 
 let submitForm = () => {
@@ -364,29 +373,21 @@ let getProductsByCategory = (category_id) => {
     }
 }
 
-let addProductToList = () => {
-    if (selectedProduct.value != null && selectedProduct.value.id != null) {
-        // Check if product already in the list
-        let idExistArray = form.purchase_items.filter((item) => item.id == selectedProduct.value.id)
-        if (!idExistArray.length) {
+let addItem = () => {
+    form.purchase_items.push({
+        product_id: '',
+        quantity: '1',
+        unit_cost: '',
+        total: '0.00',
+        deleted: false,
+    })
 
-            // Add fields
-            selectedProduct.value.quantity = '1'
-            selectedProduct.value.unit_cost = ''
-            selectedProduct.value.total = '0.00'
-
-            form.purchase_items.push(selectedProduct.value)
-        } else {
-            productErrorMessage.value = "Product already in the list"
-        }
-    } else {
-        productErrorMessage.value = "Select a product"
-    }
+    showRemoveButton.value = true
 }
 
-let removeProductFromList = (id) => {
+let removeItem = (index) => {
     Swal.fire({
-        title: 'Remove product from list?',
+        title: 'Remove item?',
         // text: "You won't be able to revert this!",
         icon: 'warning',
         showCancelButton: true,
@@ -394,11 +395,71 @@ let removeProductFromList = (id) => {
         confirmButtonText: 'Remove'
     }).then((result) => {
         if (result.isConfirmed) {
-            // Get index of the product and remove it from the list
-            let index = form.purchase_items.findIndex(item => item.id == parseInt(id))
-            form.purchase_items.splice(index, 1)
+            form.purchase_items[index].deleted = true
+
+            // Hide remove button when only one item left
+            let purchaseArray = form.purchase_items.filter((item) => item.deleted == false)
+            if (purchaseArray.length == 1) {
+                showRemoveButton.value = false
+            }
         }
     })
-    productErrorMessage.value = null
 }
+
+/******** Tabs Properties ********/
+
+const selectedTabIndex = ref(0)
+
+const changeTab = (index) => {
+    // selectedTabIndex.value = index
+    if (index > selectedTabIndex.value) {
+        nextTab()
+    } else {
+        prevTab()
+    }
+}
+
+const prevTab = () => {
+    if (selectedTabIndex.value > 0) {
+        selectedTabIndex.value -= 1
+    }
+}
+
+const nextTab = () => {
+    if (tabHeaders.value.length - 1 > selectedTabIndex.value) {
+        let hasError = false
+
+        // Validate form fields
+        if (form.purchase_date == '') {
+            form.errors.purchase_date = "The purchase date field is required."
+            hasError = true
+        } else {
+            delete form.errors.purchase_date
+        }
+
+        if (form.supplier_id == '') {
+            form.errors.supplier_id = "The supplier id field is required."
+            hasError = true
+        } else {
+            delete form.errors.supplier_id
+        }
+
+        // Next tab if no errror
+        if (!hasError) {
+            selectedTabIndex.value += 1
+        }
+    }
+}
+
+const tabHeaders = ref([
+    {
+        title: "Purchase Details",
+        disabled: false,
+    },
+    {
+        title: "Purchase Items",
+        disabled: false,
+    },
+])
+
 </script>

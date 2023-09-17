@@ -26,10 +26,11 @@ class StorePurchaseRequest extends FormRequest
             'supplier_id' => 'required|integer',
             'purchase_date' => 'required|string',
             'purchase_number' => 'required|string|max:50',
-            'purchase_items.*.id' => 'required|integer|exists:products',
-            'purchase_items.*.quantity' => 'required|numeric',
-            'purchase_items.*.unit_cost' => 'required|numeric',
-            'purchase_items.*.total' => 'required|numeric'
+            'purchase_items.*.product_id' => 'nullable|integer|exists:products,id',
+            'purchase_items.*.quantity' => 'nullable|numeric|min:1',
+            'purchase_items.*.unit_cost' => 'nullable|numeric',
+            'purchase_items.*.total' => 'nullable|numeric',
+            'purchase_items.*.deleted' => 'nullable|boolean',
         ];
     }
 
@@ -46,5 +47,19 @@ class StorePurchaseRequest extends FormRequest
                 'prefix' => 'PN-'
             ]),
         ]);
+    }
+
+    /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array<string, string>
+     */
+    public function attributes(): array
+    {
+        return [
+            'purchase_items.*.product_id' => 'product',
+            'purchase_items.*.quantity' => 'quantity',
+            'purchase_items.*.unit_cost' => 'cost',
+        ];
     }
 }

@@ -14,6 +14,7 @@
                     @change="updateQuery($event.target.value)"
                     :placeholder="placeholder"
                     autocomplete="off"
+                    :required="props.required"
                 />
                 <button
                     v-if="query != '' || selected != null"
@@ -40,47 +41,47 @@
                 leaveTo="opacity-0"
                 @after-leave="query = ''"
             >
-            <ComboboxOptions
-                class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
-            >
-                <div
-                    v-if="filteredSupplier.length === 0 && query !== ''"
-                    class="relative cursor-default select-none py-2 px-4 text-gray-700"
+                <ComboboxOptions
+                    class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-20"
                 >
-                    No options match your search.
-                </div>
-
-                <ComboboxOption
-                    v-for="(person, index) in filteredSupplier"
-                    as="template"
-                    :key="index"
-                    :value="person"
-                    v-slot="{ selected, active }"
-                >
-                    <li
-                        class="relative cursor-pointer select-none py-2 pl-3 pr-4"
-                        :class="{
-                            'bg-blue-600 text-white': active,
-                            'bg-blue-100 text-blue-700': selected,
-                            'text-gray-900': !selected
-                        }"
+                    <div
+                        v-if="filteredSupplier.length === 0 && query !== ''"
+                        class="relative cursor-default select-none py-2 px-4 text-gray-700"
                     >
-                        <span
-                            class="block truncate"
-                            :class="{ 'font-medium': selected, 'font-normal': !selected }"
+                        No options match your search.
+                    </div>
+
+                    <ComboboxOption
+                        v-for="(person, index) in filteredSupplier"
+                        as="template"
+                        :key="index"
+                        :value="person"
+                        v-slot="{ selected, active }"
+                    >
+                        <li
+                            class="relative cursor-pointer select-none py-2 pl-3 pr-4"
+                            :class="{
+                                'bg-blue-600 text-white': active,
+                                'bg-blue-100 text-blue-700': selected,
+                                'text-gray-900': !selected
+                            }"
                         >
-                            {{ person.name }}
-                        </span>
-                        <span
-                            v-if="selected"
-                            class="absolute inset-y-0 right-0 flex items-center pr-3"
-                            :class="{ 'text-white': active, 'text-blue-600': !active }"
-                        >
-                            <CheckIcon class="h-5 w-5" aria-hidden="true" />
-                        </span>
-                    </li>
-                </ComboboxOption>
-            </ComboboxOptions>
+                            <span
+                                class="block truncate"
+                                :class="{ 'font-medium': selected, 'font-normal': !selected }"
+                            >
+                                {{ person.name }}
+                            </span>
+                            <span
+                                v-if="selected"
+                                class="absolute inset-y-0 right-0 flex items-center pr-3"
+                                :class="{ 'text-white': active, 'text-blue-600': !active }"
+                            >
+                                <CheckIcon class="h-5 w-5" aria-hidden="true" />
+                            </span>
+                        </li>
+                    </ComboboxOption>
+                </ComboboxOptions>
             </TransitionRoot>
         </div>
     </Combobox>
@@ -114,6 +115,10 @@ const props = defineProps({
     placeholder: {
         type: String,
         default: 'Type to search...',
+    },
+    required: {
+        type: Boolean,
+        default: false,
     }
 });
 
@@ -135,7 +140,7 @@ let filteredSupplier = computed(() =>
         )
 )
 
-let searchSuppliers = () => {
+let fetchApi = () => {
     axios.get(props.ajaxUrl + query.value, {
         //
     })
@@ -151,7 +156,7 @@ let updateQuery = (newQuery) => {
         clearInterval(debounce.value)
         debounce.value = setTimeout(() => {
             query.value = newQuery
-            searchSuppliers()
+            fetchApi()
         }, 600)
     }
 }

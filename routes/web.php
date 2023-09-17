@@ -56,12 +56,17 @@ Route::group(['middleware' => ['auth', 'verified', 'role:admin']], function () {
         'purchases' => PurchaseController::class,
     ]);
 
+    // API routes
     Route::get('/products-list/{category_id}', function (string $category_id) {
         return ProductService::getProducts($category_id);
     })->name('products-list');
 
     Route::get('/search-suppliers', function (Request $request) {
         return SupplierService::searchSuppliers($request->search);
+    })->name('products-list');
+
+    Route::get('/search-products', function (Request $request) {
+        return ProductService::searchSuppliers($request->search);
     })->name('products-list');
 });
 

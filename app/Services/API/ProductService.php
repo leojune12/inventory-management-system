@@ -23,4 +23,18 @@ class ProductService
 
         return $products;
     }
+
+    public static function searchSuppliers($search)
+    {
+        $products = Product::where('name', 'like', '%' . $search . '%')
+            ->select(
+                'id',
+                'name',
+            )
+            ->orderBy('name', 'asc')
+            ->limit(10)
+            ->get();
+
+        return $products;
+    }
 }

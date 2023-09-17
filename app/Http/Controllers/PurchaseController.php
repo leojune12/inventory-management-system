@@ -92,17 +92,14 @@ class PurchaseController extends Controller
 
             // Create purchase details
             foreach ($validated['purchase_items'] as $purchase_item) {
-                $purchase_item['purchase_id'] = $purchase->id;
-
-                // Rename id to product_id
-                $purchase_item['product_id'] = $purchase_item['id'];
-                unset($purchase_item['id']);
-
-                $total += $purchase_item['total'];
-
-                PurchaseItem::create($purchase_item);
+                if ($purchase_item['deleted'] == false) {
+                    $purchase_item['purchase_id'] = $purchase->id;
+                    $total += $purchase_item['total'];
+                    PurchaseItem::create($purchase_item);
+                }
             }
 
+            // Add total
             $purchase->total = $total;
             $purchase->save();
 
