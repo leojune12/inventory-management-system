@@ -253,12 +253,6 @@
             title: 'Purchases',
             icon: TruckIcon,
         },
-        {
-            href: '/purchases/approved',
-            route: '/purchases/approved',
-            title: 'Approved Purchases',
-            icon: TruckIcon,
-        },
     ]
 
     const fourthGroupLinks = [
