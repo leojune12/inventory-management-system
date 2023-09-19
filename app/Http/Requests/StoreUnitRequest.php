@@ -22,7 +22,8 @@ class StoreUnitRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|max:50|unique:units'
+            'name' => 'required|max:50|unique:units',
+            'description' => 'nullable',
         ];
     }
 }

@@ -167,6 +167,23 @@
                                         />
                                     </div>
                                 </div>
+                                <div class="grid gap-4 sm:gap-6 mb-5">
+                                    <div class="">
+                                        <InputLabel
+                                            for="description"
+                                            value="Description"
+                                        />
+                                        <TextareaInput
+                                            id="description"
+                                            type="number"
+                                            class="mt-1 block w-full bg-gray-100"
+                                            v-model="model.description"
+                                            placeholder="Description"
+                                            rows="4"
+                                            disabled
+                                        />
+                                    </div>
+                                </div>
                                 <div class="flex flex-col md:flex-row gap-3 md:gap-2">
                                     <DynamicLink
                                         :href="'/' + url + '/' + model.id.toString() + '/edit'"
@@ -195,6 +212,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import { ShoppingBagIcon } from '@heroicons/vue/24/solid'
 import Breadcrumb from '@/Components/Breadcrumb.vue'
 import TextInput from '@/Components/TextInput.vue'
+import TextareaInput from '@/Components/TextareaInput.vue'
 import InputLabel from '@/Components/InputLabel.vue'
 import DynamicLink from '@/Components/DynamicLink.vue'
 

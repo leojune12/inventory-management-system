@@ -22,6 +22,7 @@ return new class extends Migration
             $table->foreignIdFor(Category::class);
             $table->foreignIdFor(Unit::class);
             $table->integer('stock');
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

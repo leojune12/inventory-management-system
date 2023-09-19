@@ -27,7 +27,8 @@ class UpdateUnitRequest extends FormRequest
                 'required',
                 'max:50',
                 Rule::unique('units')->ignore($this->id)
-            ]
+            ],
+            'description' => 'nullable',
         ];
     }
 }

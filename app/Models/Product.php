@@ -27,7 +27,8 @@ class Product extends Model implements HasMedia
         'selling_price',
         'category_id',
         'unit_id',
-        'stock'
+        'stock',
+        'description',
     ];
 
     /**

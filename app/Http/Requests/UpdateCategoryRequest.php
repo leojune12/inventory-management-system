@@ -28,7 +28,8 @@ class UpdateCategoryRequest extends FormRequest
                 'required',
                 'max:50',
                 Rule::unique('categories')->ignore($this->id)
-            ]
+            ],
+            'description' => 'nullable',
         ];
     }
 }
