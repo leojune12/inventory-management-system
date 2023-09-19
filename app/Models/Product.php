@@ -35,7 +35,7 @@ class Product extends Model implements HasMedia
      *
      * @var array
      */
-    protected $appends = ['product_photo'];
+    protected $appends = ['product_photo', 'created_at_date', 'updated_at_date'];
 
      /**
      * Set single file collection
@@ -71,5 +71,25 @@ class Product extends Model implements HasMedia
     public function unit(): BelongsTo
     {
         return $this->belongsTo(Unit::class);
+    }
+
+    /**
+     * Get created at.
+     */
+    protected function createdAtDate(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->created_at->diffForHumans(),
+        );
+    }
+
+    /**
+     * Get updated at.
+     */
+    protected function updatedAtDate(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->updated_at->diffForHumans(),
+        );
     }
 }

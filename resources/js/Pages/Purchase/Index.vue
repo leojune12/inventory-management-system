@@ -128,6 +128,12 @@
                                 {{ item.is_approved ? 'Appoved' : 'Pending' }}
                             </span>
                         </td>
+                        <td class="px-4 py-3 font-medium text-gray-700 whitespace-nowrap">
+                            {{ item.created_at_date }}
+                        </td>
+                        <td class="px-4 py-3 font-medium text-gray-700 whitespace-nowrap">
+                            {{ item.updated_at_date }}
+                        </td>
                         <!-- Actions -->
                         <td class="text-sm text-gray-700 font-light px-4 py-3">
                             <div class="flex gap-2">
@@ -246,6 +252,16 @@ const tableHeader = ref([
         title: 'Status',
         class: 'px-4 py-3',
         column: 'is_approved'
+    },
+    {
+        title: 'Created',
+        class: 'px-4 py-3',
+        column: 'created_at'
+    },
+    {
+        title: 'Updated',
+        class: 'px-4 py-3',
+        column: 'updated_at'
     },
     {
         title: 'Actions',

@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Unit extends Model
 {
@@ -17,4 +18,31 @@ class Unit extends Model
     protected $fillable = [
         'name',
     ];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['created_at_date', 'updated_at_date'];
+
+    /**
+     * Get created at.
+     */
+    protected function createdAtDate(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->created_at->diffForHumans(),
+        );
+    }
+
+    /**
+     * Get updated at.
+     */
+    protected function updatedAtDate(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->updated_at->diffForHumans(),
+        );
+    }
 }

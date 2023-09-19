@@ -47,6 +47,8 @@ class User extends Authenticatable implements HasMedia
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        // 'created_at' => 'datetime',
+        // 'updated_at' => 'datetime',
     ];
 
     /**
@@ -54,7 +56,7 @@ class User extends Authenticatable implements HasMedia
      *
      * @var array
      */
-    protected $appends = ['profile_photo'];
+    protected $appends = ['profile_photo', 'created_at_date', 'updated_at_date'];
 
      /**
      * Set single file collection
@@ -73,6 +75,26 @@ class User extends Authenticatable implements HasMedia
     {
         return Attribute::make(
             get: fn () => $this->getFirstMediaUrl('profile_photos'),
+        );
+    }
+
+    /**
+     * Get created at.
+     */
+    protected function createdAtDate(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->created_at->diffForHumans(),
+        );
+    }
+
+    /**
+     * Get updated at.
+     */
+    protected function updatedAtDate(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->updated_at->diffForHumans(),
         );
     }
 }
