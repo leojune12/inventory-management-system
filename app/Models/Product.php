@@ -10,6 +10,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Product extends Model implements HasMedia
 {
@@ -91,6 +92,21 @@ class Product extends Model implements HasMedia
     {
         return Attribute::make(
             get: fn () => $this->updated_at->diffForHumans(),
+        );
+    }
+
+    /**
+     * Get all of the purhcases.
+     */
+    public function purchases(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            Purchase::class,
+            PurchaseItem::class,
+            'product_id', // Foreign key on the environments table...
+            'id', // Foreign key on the deployments table...
+            'id', // Local key on the projects table...
+            'purchase_id' // Local key on the environments table...
         );
     }
 }
